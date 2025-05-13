@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="booking.css">
+</head>
+<body>
+    <section class="booking-section">
+        <div class="booking-container">
+          <h2>Flight Booking</h2>
+          <form class="booking-form">
+      
+            <!-- Trip Type -->
+            <div class="form-group">
+              <label>Trip Type</label>
+              <div class="radio-group">
+                <label><input type="radio" name="tripType" value="oneway" checked /> One Way</label>
+                <label><input type="radio" name="tripType" value="roundtrip" /> Round Trip</label>
+              </div>
+            </div>
+      
+            <!-- Flight Info -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="from">From</label>
+                <input type="text" id="from" placeholder="e.g., New York (JFK)" required />
+              </div>
+              <div class="form-group">
+                <label for="to">To</label>
+                <input type="text" id="to" placeholder="e.g., London (LHR)" required />
+              </div>
+            </div>
+      
+            <div class="form-row">
+              <div class="form-group">
+                <label for="departure">Departure Date</label>
+                <input type="date" id="departure" required />
+              </div>
+              <div class="form-group return-date">
+                <label for="return">Return Date</label>
+                <input type="date" id="return" />
+              </div>
+            </div>
+      
+            <!-- Passenger Info -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="passengers">Passengers</label>
+                <input type="number" id="passengers" min="1" max="10" value="1" required />
+              </div>
+              <div class="form-group">
+                <label for="class">Class</label>
+                <select id="class" required>
+                  <option value="">-- Select --</option>
+                  <option>Economy</option>
+                  <option>Business</option>
+                  <option>First Class</option>
+                </select>
+              </div>
+            </div>
+      
+            <!-- Extras -->
+            <div class="form-group">
+              <label>Extras</label>
+              <div class="checkbox-group">
+                <label><input type="checkbox" /> Extra Baggage</label>
+                <label><input type="checkbox" /> Special Meal</label>
+                <label><input type="checkbox" /> Window Seat</label>
+              </div>
+            </div>
+      
+            <!-- Contact Info -->
+            <div class="form-group">
+              <label for="fullname">Full Name</label>
+              <input type="text" id="fullname" placeholder="Your full name" required />
+            </div>
+      
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="your@email.com" required />
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" placeholder="+123456789" required />
+              </div>
+            </div>
+      
+            <!-- Notes -->
+            <div class="form-group">
+              <label for="notes">Special Requests</label>
+              <textarea id="notes" placeholder="Any special needs or requests?"></textarea>
+            </div>
+      
+            <!-- Terms -->
+            <div class="form-group terms">
+              <label>
+                <input type="checkbox" required />
+                I agree to the <a href="#">terms and conditions</a>.
+              </label>
+            </div>
+      
+            <!-- Submit -->
+            <button type="submit">Book Flight</button>
+          </form>
+        </div>
+      </section>
+      
+</body>
+</html>

@@ -1,0 +1,76 @@
+*{
+
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    text-decoration: none;
+    scroll-behavior: smooth;
+}
+h1{
+    text-align: center;
+    margin-top: 32px;
+
+
+}
+body{
+    background-color: orange;
+    
+        font-family: 'Inter', sans-serif;
+      
+      
+}
+body {
+    background-color: #f1f6fb;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 40px 20px;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    text-align: center;
+    color: #2b2d42;
+    margin-bottom: 40px;
+  }
+  
+  #flightContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+  }
+  
+  .flight-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    transition: transform 0.2s ease;
+  }
+  
+  .flight-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .flight-image {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+  }
+  
+  .flight-content {
+    padding: 20px;
+  }
+  
+  .flight-content h2 {
+    margin: 0 0 10px;
+    color: #2b2d42;
+  }
+  
+  .flight-content p {
+    margin: 8px 0;
+    color: #4a4e69;
+  }
+  
