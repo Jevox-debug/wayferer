@@ -1,14 +1,105 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  text-decoration: none;
+  scroll-behavior: smooth;
+ 
+}
+
+/* Variables */
+:root {
+  --bg-color: #fff;
+  --text-color: #221314;
+  --second-color: #5a7184;
+  --main-color: #FDB61E;
+  --big-font: 6rem;
+  --h2-font: 3rem;
+  --p-font: 1.1rem;
+}
+
+/* Body */
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f4f6f8;
+  text-align: center;
+ 
+
+}
+
+/* Header */
+header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--main-color);
+  padding: 18px 18%; /* Reduced height */
+  transition: ease 0.4s;
+}
+
+/* Logo */
+.logo {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--text-color);
+}
+
+/* Navigation */
+.navbar {
+  display: flex;
+}
+
+.navbar a {
+  color: var(--text-color);
+  font-size: var(--p-font);
+  font-weight: 500;
+  padding: 8px 18px;
+  border-radius: 4px;
+  transition: ease 0.4s;
+}
+
+
+.navbar a:hover {
+  background: var(--bg-color);
+  color: var(--text-color);
+  box-shadow: 5px 10px 30px rgba(85, 85, 85, 0.2);
+}
+
+/* Menu Icon */
+#menu-icon {
+  color: var(--bg-color);
+  font-size: 30px;
+  z-index: 10001;
+  cursor: pointer;
+  display: none;
+}
+
+
+
+
 body {
     font-family: 'Poppins', sans-serif;
     background: #f0f4f8;
     margin: 0;
     padding: 20px;
     color: #333;
+    
   }
   
   .container {
     max-width: 1200px;
     margin: auto;
+    margin-top: 10%;
+    text-align: center;
   }
   
   h1 {
@@ -18,6 +109,7 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
+  
   }
   
   .location-grid {

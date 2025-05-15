@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hotel Booking</title>
+  <link rel="stylesheet" href="hotelbook.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Hotel Booking</h1>
+    <form id="bookingForm">
+      <input type="text" id="location" placeholder="Location" required />
+      
+      <label>Check-In</label>
+      <input type="date" id="checkIn" required />
+      
+      <label>Check-Out</label>
+      <input type="date" id="checkOut" required />
+      
+      <input type="number" id="guests" min="1" placeholder="Guests" value="1" required />
+      
+      <button type="submit">Search</button>
+    </form>
+
+    <div id="results" class="results"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('bookingForm');
+    const results = document.getElementById('results');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      results.innerHTML = '';
+
+      const mockHotels = [
+        { name:  'Sunset Inn', price: '$120/night', rating: 4.3 },
+        { name: 'Oceanview Hotel', price: '$150/night', rating: 4.7 },
+        { name: 'City Lodge', price: '$90/night', rating: 4.0 },
+      ];
+
+      mockHotels.forEach(hotel => {
+        const div = document.createElement('div');
+        div.className = 'hotel-card';
+        div.innerHTML = `
+          <h2>${hotel.name}</h2>
+          <p>${hotel.price}</p>
+         
+          <p>Rating: ${hotel.rating}</p>
+        `;
+        results.appendChild(div);
+      });
+    });
+  </script>
+</body>
+</html>

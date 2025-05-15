@@ -1,6 +1,6 @@
 async function getFlightData() {
     try {
-        const response = await fetch('https://api.aviationstack.com/v1/flights?access_key=062814d74ffa923eef87ae12b0fa1666');
+        const response = await fetch('https://api.aviationstack.com/v1/flights?access_key=cb71e33918ef1972dabe104581e98d40');
         const data = await response.json();
 
         const container = document.getElementById("flightContainer");
