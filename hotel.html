@@ -6,19 +6,69 @@
   <title>Travel Dashboard</title>
   <link rel="stylesheet" href="package.css" />
   <link rel="icon" href="logo.png" type="image/png">
+  <style>
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      max-width: 1200px;
+      
+    
+      margin: 0 auto;
+    }
+    .card.hotel {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      
+      height: 100%;
+    }
+    .card.hotel:hover {
+      transform: translateY(-5px);
+    }
+    .card-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .card h2 {
+      margin: 15px;
+      font-size: 1.5em;
+    }
+    .card p {
+      margin: 10px 15px;
+      color: #666;
+    }
+    .card button {
+      margin: 15px;
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .card button:hover {
+      background: #0056b3;
+    }
+  </style>
 </head>
 <body>
 
 
    <header class="header">
-        <a href="#" class="logo" style="margin: 0; display: flex; align-items: center; gap: 10px;"><img src="logo.png" alt="My logo" width="150">Wayfarers</a>
+        <a href="#" class="logo" style="margin: 0; display: flex; align-items: center; gap: 10px;"><img src="logo.png" alt="My logo" width="100">Wayfarers</a>
         <div class="bx bx-menu" id="menu-icon"></div>
 
         <ul style="list-style-type: none;" class="navbar">
             <li><a href="index.html">HOME</a></li>
             <li><a href="package.html">Package</a></li>
             <li><a href="locations.html">Destinations</a></li>
-            <li><a href="#tiktok">Watch</a></li>
+            <li><a href="watch.html">Watch</a></li>
 
 
 
@@ -31,133 +81,73 @@
     </header>
 
   <div class="container">
-    <div class="card hotel">
-      <img src="cuna-hotel.jpg" alt="Flight Destination" class="card-image" />
-      <h2>Cuna Hotel</h2>
-      <p> El Nido, Palawan, Philippines,</p>
-      <p>₱19,000</p>
-      <p>1 Bed</p>
-     
-     <a href="hotelbook.html"><button >Book now</button></a> 
-      
-    </div>
-
-  <div class="card hotel">
-      <img src="cuna-hotel.jpg" alt="Flight Destination" class="card-image" />
-      <h2>Cuna Hotel</h2>
-      <p> El Nido, Palawan, Philippines,</p>
-      <p>₱19,000</p>
-      <p>1 Bed</p>
-     
-     <a href="hotelbook.html"><button >Book now</button></a> 
-      
-    </div>
-
-    <div class="card hotel">
-      <img src="cuna-hotel.jpg" alt="Flight Destination" class="card-image" />
-      <h2>Cuna Hotel</h2>
-      <p> El Nido, Palawan, Philippines,</p>
-      <p>₱19,000</p>
-      <p>1 Bed</p>
-     
-     <a href="hotelbook.html"><button >Book now</button></a> 
-      
-    </div>
-  
-      <div class="card hotel">
-      <img src="cuna-hotel.jpg" alt="Flight Destination" class="card-image" />
-      <h2>Cuna Hotel</h2>
-      <p> El Nido, Palawan, Philippines,</p>
-      <p>₱19,000</p>
-      <p>1 Bed</p>
-     
-     <a href="hotelbook.html"><button >Book now</button></a> 
-      
-    </div>
-   <div class="card hotel">
-      <img src="cuna-hotel.jpg" alt="Flight Destination" class="card-image" />
-      <h2>Cuna Hotel</h2>
-      <p> El Nido, Palawan, Philippines,</p>
-      <p>₱19,000</p>
-      <p>1 Bed</p>
-     
-     <a href="hotelbook.html"><button >Book now</button></a> 
-      
-    </div>
-      <div class="card hotel">
-      <img src="cuna-hotel.jpg" alt="Flight Destination" class="card-image" />
-      <h2>Cuna Hotel</h2>
-      <p> El Nido, Palawan, Philippines,</p>
-      <p>₱19,000</p>
-      <p>1 Bed</p>
-     
-     <a href="hotelbook.html"><button >Book now</button></a> 
-      
-    </div>
-       <div class="card hotel">
-      <img src="cuna-hotel.jpg" alt="Flight Destination" class="card-image" />
-      <h2>Cuna Hotel</h2>
-      <p> El Nido, Palawan, Philippines,</p>
-      <p>₱19,000</p>
-      <p>1 Bed</p>
-     
-     <a href="hotelbook.html"><button >Book now</button></a> 
-      
-    </div>
-  
-       <div class="card hotel">
-      <img src="cuna-hotel.jpg" alt="Flight Destination" class="card-image" />
-      <h2>Cuna Hotel</h2>
-      <p> El Nido, Palawan, Philippines,</p>
-      <p>₱19,000</p>
-      <p>1 Bed</p>
-     
-     <a href="hotelbook.html"><button >Book now</button></a> 
-      
-    </div>
-       <div class="card hotel">
-      <img src="cuna-hotel.jpg" alt="Flight Destination" class="card-image" />
-      <h2>Cuna Hotel</h2>
-      <p> El Nido, Palawan, Philippines,</p>
-      <p>₱19,000</p>
-      <p>1 Bed</p>
-     
-     <a href="hotelbook.html"><button >Book now</button></a> 
-      
-    </div>
-  
-       <div class="card hotel">
-      <img src="cuna-hotel.jpg" alt="Flight Destination" class="card-image" />
-      <h2>Cuna Hotel</h2>
-      <p> El Nido, Palawan, Philippines,</p>
-      <p>₱19,000</p>
-      <p>1 Bed</p>
-     
-     <a href="hotelbook.html"><button >Book now</button></a> 
-      
-    </div>
-       <div class="card hotel">
-      <img src="cuna-hotel.jpg" alt="Flight Destination" class="card-image" />
-      <h2>Cuna Hotel</h2>
-      <p> El Nido, Palawan, Philippines,</p>
-      <p>₱19,000</p>
-      <p>1 Bed</p>
-     
-     <a href="hotelbook.html"><button >Book now</button></a> 
-      
-    </div>
-  
-      <div class="card hotel">
-      <img src="cuna-hotel.jpg" alt="Flight Destination" class="card-image" />
-      <h2>Cuna Hotel</h2>
-      <p> El Nido, Palawan, Philippines,</p>
-      <p>₱19,000</p>
-      <p>1 Bed</p>
-     
-     <a href="hotelbook.html"><button >Book now</button></a> 
-      
-    </div>
-
+    <!-- Dynamic listings will be inserted here by JavaScript -->
   </div>
+
+  <script>
+    // Function to create a hotel card
+    function createHotelCard(listing) {
+        return `
+            <div class="card hotel">
+                <img src="${listing.imageUrl}" alt="${listing.hotelName}" class="card-image" />
+                <h2>${listing.hotelName}</h2>
+                <p>${listing.location}</p>
+                <p>₱${listing.price}</p>
+                <p>${listing.beds} Bed${listing.beds > 1 ? 's' : ''} | ${listing.view}</p>
+                <a href="hotelbook.html"><button>Book now</button></a>
+            </div>
+        `;
+    }
+
+    // Create static listings
+    const staticListings = [
+        {
+            hotelName: "Luxury Beach Resort",
+            location: "Boracay, Philippines",
+            price: "25,000",
+            beds: 2,
+            view: "Ocean View",
+            imageUrl: "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9"
+        },
+        {
+            hotelName: "Mountain View Lodge",
+            location: "Baguio City, Philippines",
+            price: "15,000",
+            beds: 1,
+            view: "Mountain View",
+            imageUrl: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb"
+        },
+        {
+            hotelName: "Urban Luxury Hotel",
+            location: "Makati, Manila",
+            price: "18,000",
+            beds: 2,
+            view: "City View",
+            imageUrl: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4"
+        }
+    ];
+
+    // Load and display all listings
+    function loadListings() {
+        const container = document.querySelector('.container');
+        
+        // Load dynamic listings from localStorage
+        const dynamicListings = JSON.parse(localStorage.getItem('hotelListings') || '[]');
+        
+        // Combine dynamic and static listings
+        const allListings = [...dynamicListings, ...staticListings];
+        
+        // Clear container
+        container.innerHTML = '';
+        
+        // Display all listings
+        allListings.forEach(listing => {
+            container.innerHTML += createHotelCard(listing);
+        });
+    }
+
+    // Load listings when the page loads
+    loadListings();
+  </script>
 </body>
 </html>

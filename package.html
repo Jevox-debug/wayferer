@@ -3,22 +3,132 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Travel Dashboard</title>
+  <title>Travel Packages - Wayfarers</title>
   <link rel="stylesheet" href="package.css" />
   <link rel="icon" href="logo.png" type="image/png">
+  <style>
+    .container {
+      padding: 20px;
+      max-width: 100%;
+      overflow-x: auto;
+    }
+
+    #packageContainer {
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      padding: 10px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: #2A9D8F #f5f5f5;
+    }
+
+    #packageContainer::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    #packageContainer::-webkit-scrollbar-track {
+      background: #f5f5f5;
+      border-radius: 4px;
+    }
+
+    #packageContainer::-webkit-scrollbar-thumb {
+      background: #2A9D8F;
+      border-radius: 4px;
+    }
+
+    .card {
+      flex: 0 0 300px;
+      position: relative;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px 10px 0 0;
+    }
+    
+    .delete-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255, 0, 0, 0.8);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      transition: background 0.3s;
+      z-index: 1;
+    }
+
+    .card:hover .delete-btn {
+      display: flex;
+    }
+
+    .delete-btn:hover {
+      background: rgba(255, 0, 0, 1);
+    }
+
+    .card-content {
+      padding: 15px;
+    }
+
+    .card h2 {
+      margin: 0 0 10px 0;
+      font-size: 1.2rem;
+      color: #333;
+    }
+
+    .card p {
+      margin: 5px 0;
+      color: #666;
+    }
+
+    .card button {
+      background: #2A9D8F;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.3s;
+    }
+
+    .card button:hover {
+      background: #248277;
+    }
+  </style>
 </head>
 <body>
 
 
    <header class="header">
-        <a href="#" class="logo" style="margin: 0; display: flex; align-items: center; gap: 10px;"><img src="logo.png" alt="My logo" width="150">Wayfarers</a>
+        <a href="#" class="logo" style="margin: 0; display: flex; align-items: center; gap: 10px;"><img src="logo.png" alt="My logo" width="100">Wayfarers</a>
         <div class="bx bx-menu" id="menu-icon"></div>
 
         <ul style="list-style-type: none;" class="navbar">
             <li><a href="index.html">HOME</a></li>
             <li><a href="package.html">Package</a></li>
             <li><a href="locations.html">Destinations</a></li>
-            <li><a href="#tiktok">Watch</a></li>
+            <li><a href="watch.html">Watch</a></li>
 
 
 
@@ -31,107 +141,75 @@
     </header>
 
   <div class="container">
-    <div class="card hotel">
-      <img src="ceb.jpg" alt="Flight Destination" class="card-image" />
-      <h2>Flight: Bacolod City</h2>
-      <p>From: Manila</p>
-      <p>To: Bacolod</p>
-      <p>Price: $250</p>
-     
-     <a href="booking.html"><button >Book Flight</button></a> 
+    <div style="width: 100%; text-align: right; margin-bottom: 20px;">
+       
+    </div>
+    
+    <div id="packageContainer">
+        <!-- Dynamic packages will be loaded here -->
+    </div>
+
+    <!-- Default packages -->
+   
       
-    </div>
-
-    <div class="card hotel">
-      <img src="Seda Capitol Central 01.jpg" alt="Maldives Hotel" class="card-image" />
-      <h2>Hotel: Seda </h2>
-      <p>Location: Bacolod</p>
-      <p>Price: $120/night</p>
-      <a href="hotelbook.html"><button>Book Hotel</button></a>
-    </div>
-
-    <div class="card hotel">
-        <img src="ceb.jpg" alt="Flight Destination" class="card-image" />
-        <h2>Flight: Bacolod City</h2>
-        <p>From: Manila</p>
-        <p>To: Bacolod</p>
-        <p>Price: $250</p>
-        <a href="booking.html"><button >Book Flight</button></a> 
-      </div>
-  
-         <div class="card hotel">
-      <img src="Seda Capitol Central 01.jpg" alt="Maldives Hotel" class="card-image" />
-      <h2>Hotel: Seda </h2>
-      <p>Location: Bacolod</p>
-      <p>Price: $120/night</p>
-      <a href="hotelbook.html"><button>Book Hotel</button></a>
-    </div>
-      <div class="card hotel">
-        <img src="ceb.jpg" alt="Flight Destination" class="card-image" />
-        <h2>Flight: Bacolod City</h2>
-        <p>From: Manila</p>
-        <p>To: Bacolod</p>
-        <p>Price: $250</p>
-        <a href="booking.html"><button >Book Flight</button></a> 
-      </div>
-  
-      <div class="card hotel">
-      <img src="Seda Capitol Central 01.jpg" alt="Maldives Hotel" class="card-image" />
-      <h2>Hotel: Seda </h2>
-      <p>Location: Bacolod</p>
-      <p>Price: $120/night</p>
-      <a href="hotelbook.html"><button>Book Hotel</button></a>
-    </div>
-      <div class="card hotel">
-        <img src="ceb.jpg" alt="Flight Destination" class="card-image" />
-        <h2>Flight: Bacolod City</h2>
-        <p>From: Manila</p>
-        <p>To: Bacolod</p>
-        <p>Price: $250</p>
-        <a href="booking.html"><button >Book Flight</button></a> 
-      </div>
-  
-     <div class="card hotel">
-      <img src="Seda Capitol Central 01.jpg" alt="Maldives Hotel" class="card-image" />
-      <h2>Hotel: Seda </h2>
-      <p>Location: Bacolod</p>
-      <p>Price: $120/night</p>
-      <a href="hotelbook.html"><button>Book Hotel</button></a>
-    </div>
-
-      <div class="card hotel">
-        <img src="ceb.jpg" alt="Flight Destination" class="card-image" />
-        <h2>Flight: Bacolod City</h2>
-        <p>From: Manila</p>
-        <p>To: Bacolod</p>
-        <p>Price: $250</p>
-        <a href="booking.html"><button >Book Flight</button></a> 
-      </div>
-  
-    <div class="card hotel">
-      <img src="Seda Capitol Central 01.jpg" alt="Maldives Hotel" class="card-image" />
-      <h2>Hotel: Seda </h2>
-      <p>Location: Bacolod</p>
-      <p>Price: $120/night</p>
-      <a href="hotelbook.html"><button>Book Hotel</button></a>
-    </div>
-      <div class="card hotel">
-        <img src="ceb.jpg" alt="Flight Destination" class="card-image" />
-        <h2>Flight: Bacolod City</h2>
-        <p>From: Manila</p>
-        <p>To: Bacolod</p>
-        <p>Price: $250</p>
-        <a href="booking.html"><button >Book Flight</button></a> 
-      </div>
-  
-    <div class="card hotel">
-      <img src="Seda Capitol Central 01.jpg" alt="Maldives Hotel" class="card-image" />
-      <h2>Hotel: Seda </h2>
-      <p>Location: Bacolod</p>
-      <p>Price: $120/night</p>
-      <a href="hotelbook.html"><button>Book Hotel</button></a>
-    </div>
-
   </div>
+
+  <script>
+    // Load and display submitted packages
+    function loadPackages() {
+        const packageContainer = document.getElementById('packageContainer');
+        const packages = JSON.parse(localStorage.getItem('travelPackages')) || [];
+
+        packages.forEach((pkg, index) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            
+            // Create image element with error handling
+            const img = new Image();
+            img.className = 'card-image';
+            img.alt = pkg.title;
+            img.src = pkg.image;
+            img.onerror = function() {
+                this.src = 'logo.png'; // Fallback image if loading fails
+                console.error('Failed to load image for package:', pkg.title);
+            };
+
+            const cardContent = document.createElement('div');
+            cardContent.className = 'card-content';
+            cardContent.innerHTML = `
+                <button class="delete-btn" onclick="deletePackage(${index})" title="Delete package">×</button>
+                <h2>${pkg.packageType === 'tour' ? pkg.title : `${pkg.packageType}: ${pkg.title}`}</h2>
+                <p>Location: ${pkg.location}</p>
+                <p>Price: $${pkg.price}</p>
+                ${pkg.duration ? `<p>Duration: ${pkg.duration} days</p>` : ''}
+                <p>${pkg.description}</p>
+                <a href="${pkg.packageType === 'hotel' ? 'hotelbook.html' : 'booking.html'}">
+                    <button>Book ${pkg.packageType}</button>
+                </a>
+            `;
+            
+            card.appendChild(img);
+            card.appendChild(cardContent);
+            packageContainer.appendChild(card);
+        });
+    }
+
+    // Delete a package
+    function deletePackage(index) {
+        if (confirm('Are you sure you want to delete this package?')) {
+            const packages = JSON.parse(localStorage.getItem('travelPackages')) || [];
+            packages.splice(index, 1);
+            localStorage.setItem('travelPackages', JSON.stringify(packages));
+            
+            // Refresh the package container
+            const packageContainer = document.getElementById('packageContainer');
+            packageContainer.innerHTML = '';
+            loadPackages();
+        }
+    }
+
+    // Load packages when the page loads
+    window.addEventListener('load', loadPackages);
+  </script>
 </body>
 </html>

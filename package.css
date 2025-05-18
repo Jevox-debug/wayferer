@@ -44,6 +44,7 @@ header {
   top: 0;
   right: 0;
   width: 100%;
+  
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -106,6 +107,7 @@ section {
   justify-content: center;
   gap: 30px;
   flex-wrap: wrap;
+  margin-top: 6%;
 }
 
 .card {

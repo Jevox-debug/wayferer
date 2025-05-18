@@ -521,170 +521,82 @@ header.sticky {
 
 
 .rating {
-  display: flex;
-  flex-direction: row-reverse;
-  gap: 0.1rem;
-  --stroke: #666;
-  --fill: #ffc73a;
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 0.3rem;
+    --stroke: var(--main-color);
+    --fill: #ffd700;
 }
 
 .rating input {
-  appearance: unset;
+    appearance: none;
+    -webkit-appearance: none;
+    margin: 0;
+    position: absolute;
+    opacity: 0;
 }
 
 .rating label {
-  cursor: pointer;
+    cursor: pointer;
+    padding: 0 0.1em;
+    font-size: 1.4rem;
 }
 
 .rating svg {
-  width: 1rem;
-  height: 1rem;
-  overflow: visible;
-  fill: transparent;
-  stroke: var(--stroke);
-  stroke-linejoin: bevel;
-  stroke-dasharray: 12;
-  animation: idle 4s linear infinite;
-  transition: stroke 0.2s, fill 0.5s;
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: transparent;
+    stroke: var(--stroke);
+    stroke-width: 1.5;
+    overflow: visible;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    transition: fill 0.2s, transform 0.2s;
 }
 
 @keyframes idle {
-  from {
-    stroke-dashoffset: 24;
-  }
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(0.96);
+    }
 }
 
 .rating label:hover svg {
-  stroke: var(--fill);
+    fill: var(--fill);
+    transform: scale(1.1);
 }
 
 .rating input:checked ~ label svg {
-  transition: 0s;
-  animation: idle 4s linear infinite, yippee 0.75s backwards;
-  fill: var(--fill);
-  stroke: var(--fill);
-  stroke-opacity: 0;
-  stroke-dasharray: 0;
-  stroke-linejoin: miter;
-  stroke-width: 8px;
+    fill: var(--fill);
+    animation: yippee 0.5s ease-out forwards;
 }
 
 @keyframes yippee {
-  0% {
-    transform: scale(1);
-    fill: var(--fill);
-    fill-opacity: 0;
-    stroke-opacity: 1;
-    stroke: var(--stroke);
-    stroke-dasharray: 10;
-    stroke-width: 1px;
-    stroke-linejoin: bevel;
-  }
-
-  30% {
-    transform: scale(0);
-    fill: var(--fill);
-    fill-opacity: 0;
-    stroke-opacity: 1;
-    stroke: var(--stroke);
-    stroke-dasharray: 10;
-    stroke-width: 1px;
-    stroke-linejoin: bevel;
-  }
-
-  30.1% {
-    stroke: var(--fill);
-    stroke-dasharray: 0;
-    stroke-linejoin: miter;
-    stroke-width: 8px;
-  }
-
-  60% {
-    transform: scale(1.2);
-    fill: var(--fill);
-  }
-}
-.ratin {
-  display: flex;
-  flex-direction: row-reverse;
-  gap: 0.1rem;
-  --stroke: #666;
-  --fill: #ffc73a;
-}
-
-.ratin input {
-  appearance: unset;
-}
-
-.ratin label {
-  cursor: pointer;
-}
-
-.ratin svg {
-  width: 1rem;
-  height: 1rem;
-  overflow: visible;
-  fill: transparent;
-  stroke: var(--stroke);
-  stroke-linejoin: bevel;
-  stroke-dasharray: 12;
-  animation: idle 4s linear infinite;
-  transition: stroke 0.2s, fill 0.5s;
-}
-
-@keyframes idle {
-  from {
-    stroke-dashoffset: 24;
-  }
-}
-
-.ratin label:hover svg {
-  stroke: var(--fill);
-}
-
-.ratin input:checked ~ label svg {
-  transition: 0s;
-  animation: idle 4s linear infinite, yippee 0.75s backwards;
-  fill: var(--fill);
-  stroke: var(--fill);
-  stroke-opacity: 0;
-  stroke-dasharray: 0;
-  stroke-linejoin: miter;
-  stroke-width: 8px;
-}
-
-@keyframes yippee {
-  0% {
-    transform: scale(1);
-    fill: var(--fill);
-    fill-opacity: 0;
-    stroke-opacity: 1;
-    stroke: var(--stroke);
-    stroke-dasharray: 10;
-    stroke-width: 1px;
-    stroke-linejoin: bevel;
-  }
-
-  30% {
-    transform: scale(0);
-    fill: var(--fill);
-    fill-opacity: 0;
-    stroke-opacity: 1;
-    stroke: var(--stroke);
-    stroke-dasharray: 10;
-    stroke-width: 1px;
-    stroke-linejoin: bevel;
-  }
-
-  30.1% {
-    stroke: var(--fill);
-    stroke-dasharray: 0;
-    stroke-linejoin: miter;
-    stroke-width: 8px;
-  }
-
-  60% {
-    transform: scale(1.2);
-    fill: var(--fill);
-  }
+    0% {
+        transform: scale(1);
+        fill: var(--fill);
+        opacity: 1;
+    }
+    25% {
+        transform: scale(1.2);
+        fill: var(--fill);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1);
+        fill: var(--fill);
+        opacity: 1;
+    }
+    75% {
+        transform: scale(1.1);
+        fill: var(--fill);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        fill: var(--fill);
+        opacity: 1;
+    }
 }

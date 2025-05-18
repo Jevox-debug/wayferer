@@ -1,37 +1,1216 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>Flight Info</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Information - Wayfarers</title>
     <link rel="icon" href="logo.png" type="image/png">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
 
-  <link rel="stylesheet" href="flight.css">
+        .header {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 100px;
+            background:#FDB61E;
+        }
 
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color:black;
+            text-decoration: none;
+        }
+
+        .navbar {
+            display: flex;
+            list-style: none;
+        }
+
+        .navbar a {
+            color: black;
+            font-size: 1.1rem;
+            font-weight: 500;
+            padding: 10px 20px;
+            margin: 0 10px;
+            text-decoration: none;
+            transition: all .5s ease;
+        }
+
+        .navbar a:hover {
+            background: white;
+            color: #2A9D8F;
+            border-radius: 4px;
+        }
+
+        .main-container {
+            margin-top: 100px;
+            padding: 20px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #2A9D8F;
+        }
+
+        /* Flight Search Section */
+        .search-flights {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 8px;
+            color: #264653;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .search-btn {
+            background: #2A9D8F;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            align-self: flex-end;
+        }
+
+        .search-btn:hover {
+            background: #248277;
+        }
+
+        .flight-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        /* Flight Card Styles */
+        .airline-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .airline-logo {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+
+        .flight-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .time {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #264653;
+        }
+
+        .route {
+            display: flex;
+            align-items: center;
+            color: #666;
+            gap: 10px;
+        }
+
+        .route::before,
+        .route::after {
+            content: '';
+            display: block;
+            width: 30px;
+            height: 2px;
+            background: #2A9D8F;
+        }
+
+        .duration {
+            padding: 5px 10px;
+            background: #e9ecef;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            color: #495057;
+            display: inline-block;
+            margin: 0 auto;
+        }
+
+        .price-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2A9D8F;
+        }
+
+        .book-btn {
+            background: #2A9D8F;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .book-btn:hover {
+            background: #248277;
+            transform: translateY(-2px);
+        }
+
+        /* Improved Flight Card */
+        .flight-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .hide-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 5px;
+            transition: color 0.3s ease;
+            z-index: 2;
+        }
+
+        .hide-btn:hover {
+            color: #2A9D8F;
+        }
+
+        .flight-card.hidden {
+            display: none;
+        }
+
+        .flight-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Transportation Section */
+        .transport-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .transport-list {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .map-container {
+            position: sticky;
+            top: 100px;
+            height: calc(100vh - 120px);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            z-index: 1;
+        }
+
+        .search-container {
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 5px 15px;
+            border: none;
+            border-radius: 15px;
+            background: #e9ecef;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: #2A9D8F;
+            color: white;
+        }
+
+        .transpo-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .transpo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .transpo-type {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2A9D8F;
+            margin-bottom: 10px;
+        }
+
+        .transpo-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .features {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .feature-tag {
+            background: #f5f5f5;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            color: #495057;
+            transition: background 0.3s;
+        }
+
+        .feature-tag:hover {
+            background: #e9ecef;
+        }
+
+        @media (max-width: 1200px) {
+            .transport-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .map-container {
+                height: 400px;
+                position: relative;
+                top: 0;
+            }
+        }
+
+        /* Update scrollbar colors to match package.html */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f5f5f5;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #2A9D8F;
+            border-radius: 4px;
+        }
+
+        /* Card shadow and hover effects to match package.html */
+        .flight-card, .transpo-card {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .flight-card:hover, .transpo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Button hover effects to match package.html */
+        .book-btn, .search-btn, .filter-btn {
+            transition: background 0.3s;
+        }
+
+        .book-btn:hover, .search-btn:hover {
+            background: #248277;
+        }
+
+        /* Price color to match package.html */
+        .price {
+            color: #2A9D8F;
+        }
+
+        /* Search input styling to match package */
+        .search-input {
+            border: 1px solid #ddd;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: #2A9D8F;
+            outline: none;
+        }
+
+        /* Form elements styling */
+        .form-group input:focus, .form-group select:focus {
+            border-color: #2A9D8F;
+            outline: none;
+        }
+
+        /* Map container shadow to match package cards */
+        .map-container {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Section titles to match package styling */
+        .section-title {
+            color: #333;
+            border-bottom-color: #2A9D8F;
+        }
+
+        .transpo-type {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .transpo-type i {
+            font-size: 1.4rem;
+            color: #2A9D8F;
+        }
+
+        .schedule {
+            display: flex;
+            gap: 20px;
+            margin: 10px 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .schedule span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .feature-tag {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: #f5f5f5;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            color: #495057;
+            transition: background 0.3s;
+        }
+
+        .feature-tag i {
+            color: #2A9D8F;
+        }
+    </style>
 </head>
-
 <body>
-    <h1>Live Flight Data</h1>
-    <div class="api">
-    <div id="flightContainer">
+    <header class="header">
+        <a href="#" class="logo" style="margin: 0; display: flex; align-items: center; gap: 10px;">
+            <img src="logo.png" alt="My logo" width="100">Wayfarers
+        </a>
+        <ul class="navbar">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="package.html">Package</a></li>
+            <li><a href="locations.html">Destinations</a></li>
+            <li><a href="watch.html">Watch</a></li>
+        </ul>
+    </header>
 
-      <div class="flight-card">
-        <img src="planess.jpg" alt="Airline Image" class="flight-image">
-        <div class="flight-content">
-          <h2>AA123</h2>
-          <p><strong>Airline:</strong> American Airlines</p>
-          <p><strong>From:</strong> JFK (JFK)</p>
-          <p><strong>To:</strong> LAX (LAX)</p>
-          <p><strong>Status:</strong> On Time</p>
+    <div class="main-container">
+        <h2 class="section-title">Flight Information</h2>
+        <div class="search-flights">
+            <form class="search-form">
+                <div class="form-group">
+                    <label>From</label>
+                    <select>
+                        <option>Manila (MNL)</option>
+                        <option>Cebu (CEB)</option>
+                        <option>Davao (DVO)</option>
+                        <option>Clark (CRK)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>To</label>
+                    <select>
+                        <option>Cebu (CEB)</option>
+                        <option>Manila (MNL)</option>
+                        <option>Davao (DVO)</option>
+                        <option>Palawan (PPS)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Departure</label>
+                    <input type="date">
+                </div>
+                <div class="form-group">
+                    <label>Return</label>
+                    <input type="date">
+                </div>
+                <div class="form-group">
+                    <label>Passengers</label>
+                    <input type="number" min="1" value="1">
+                </div>
+                <button type="submit" class="search-btn">Search Flights</button>
+            </form>
         </div>
-      </div>
-      
 
+        <div class="flight-results">
+            <div class="flight-card">
+                <button class="hide-btn" title="Hide this flight"><i class='bx bx-x'></i></button>
+                <div class="airline-info">
+                    <img src="pal.png" alt="PAL" class="airline-logo">
+                    <span>Philippine Airlines</span>
+                </div>
+                <div class="flight-details">
+                    <div class="time">09:00</div>
+                    <div class="route">MNL → CEB</div>
+                    <div class="time">10:30</div>
+                </div>
+                <div class="duration">1h 30m</div>
+                <div class="price-section">
+                    <div class="price">₱3,999</div>
+                    <button class="book-btn">Book Now</button>
+                </div>
+            </div>
+
+            <div class="flight-card">
+                <button class="hide-btn" title="Hide this flight"><i class='bx bx-x'></i></button>
+                <div class="airline-info">
+                    <img src="ceb.jpg" alt="Cebu Pacific" class="airline-logo">
+                    <span>Cebu Pacific</span>
+                </div>
+                <div class="flight-details">
+                    <div class="time">10:15</div>
+                    <div class="route">MNL → CEB</div>
+                    <div class="time">11:45</div>
+                </div>
+                <div class="duration">1h 30m</div>
+                <div class="price-section">
+                    <div class="price">₱2,999</div>
+                    <button class="book-btn">Book Now</button>
+                </div>
+            </div>
+
+            <div class="flight-card">
+                <button class="hide-btn" title="Hide this flight"><i class='bx bx-x'></i></button>
+                <div class="airline-info">
+                    <img src="air.png" alt="AirAsia" class="airline-logo">
+                    <span>AirAsia</span>
+                </div>
+                <div class="flight-details">
+                    <div class="time">14:30</div>
+                    <div class="route">MNL → CEB</div>
+                    <div class="time">16:00</div>
+                </div>
+                <div class="duration">1h 30m</div>
+                <div class="price-section">
+                    <div class="price">₱1,999</div>
+                    <button class="book-btn">Book Now</button>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Ground Transportation</h2>
+        <div class="transport-container">
+            <div class="list-section">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search transportation...">
+                    <div class="filter-options">
+                        <button class="filter-btn active">All</button>
+                        <button class="filter-btn">Bus</button>
+                        <button class="filter-btn">Train</button>
+                        <button class="filter-btn">Ferry</button>
+                        <button class="filter-btn">Jeepney</button>
+                    </div>
+                </div>
+
+                <div class="transport-list">
+                    <!-- Bus Routes -->
+                    <div class="transpo-card" onclick="showRoute('Victory Liner', [14.6315, 121.0555], 'Manila to Baguio')">
+                        <div class="transpo-type">Victory Liner Bus</div>
+                        <div class="transpo-details">
+                            <span class="price">₱450 - ₱750</span>
+                            <span class="route">Manila → Baguio</span>
+                        </div>
+                        <p>First-class bus service with comfortable seating and air conditioning</p>
+                        <div class="features">
+                            <span class="feature-tag">WiFi</span>
+                            <span class="feature-tag">AC</span>
+                            <span class="feature-tag">Reclining Seats</span>
+                        </div>
+                    </div>
+
+                    <div class="transpo-card" onclick="showRoute('Philtranco', [14.5995, 120.9842], 'Manila to Bicol')">
+                        <div class="transpo-type">Philtranco Bus</div>
+                        <div class="transpo-details">
+                            <span class="price">₱800 - ₱1,200</span>
+                            <span class="route">Manila → Bicol</span>
+                        </div>
+                        <p>Long-distance bus service with comfortable amenities</p>
+                        <div class="features">
+                            <span class="feature-tag">WiFi</span>
+                            <span class="feature-tag">AC</span>
+                            <span class="feature-tag">Restroom</span>
+                        </div>
+                    </div>
+
+                    <div class="transpo-card" onclick="showRoute('Ceres', [10.3157, 123.8854], 'Cebu to Dumaguete')">
+                        <div class="transpo-type">Ceres Bus</div>
+                        <div class="transpo-details">
+                            <span class="price">₱350 - ₱500</span>
+                            <span class="route">Cebu → Dumaguete</span>
+                        </div>
+                        <p>Regular bus service across Visayas region</p>
+                        <div class="features">
+                            <span class="feature-tag">AC</span>
+                            <span class="feature-tag">Regular Stops</span>
+                        </div>
+                    </div>
+
+                    <div class="transpo-card" onclick="showRoute('DLTB', [14.5995, 120.9842], 'Manila to Batangas')">
+                        <div class="transpo-type">DLTB Bus</div>
+                        <div class="transpo-details">
+                            <span class="price">₱200 - ₱400</span>
+                            <span class="route">Manila → Batangas</span>
+                        </div>
+                        <p>Regular bus service to Southern Luzon</p>
+                        <div class="features">
+                            <span class="feature-tag">AC</span>
+                            <span class="feature-tag">Frequent Trips</span>
+                        </div>
+                    </div>
+
+                    <div class="transpo-card" onclick="showRoute('Five Star', [14.6315, 121.0555], 'Manila to Pangasinan')">
+                        <div class="transpo-type">Five Star Bus</div>
+                        <div class="transpo-details">
+                            <span class="price">₱350 - ₱600</span>
+                            <span class="route">Manila → Pangasinan</span>
+                        </div>
+                        <p>Regular and first-class bus options available</p>
+                        <div class="features">
+                            <span class="feature-tag">WiFi</span>
+                            <span class="feature-tag">AC</span>
+                        </div>
+                    </div>
+
+                    <div class="transpo-card" onclick="showRoute('Genesis', [14.6315, 121.0555], 'Manila to La Union')">
+                        <div class="transpo-type">Genesis Bus</div>
+                        <div class="transpo-details">
+                            <span class="price">₱400 - ₱700</span>
+                            <span class="route">Manila → La Union</span>
+                        </div>
+                        <p>Premium bus service to Northern Luzon</p>
+                        <div class="features">
+                            <span class="feature-tag">WiFi</span>
+                            <span class="feature-tag">AC</span>
+                            <span class="feature-tag">Entertainment</span>
+                        </div>
+                    </div>
+
+                    <div class="transpo-card" onclick="showRoute('JAM', [14.5995, 120.9842], 'Manila to Zambales')">
+                        <div class="transpo-type">JAM Transit</div>
+                        <div class="transpo-details">
+                            <span class="price">₱300 - ₱500</span>
+                            <span class="route">Manila → Zambales</span>
+                        </div>
+                        <p>Regular bus service to Central Luzon</p>
+                        <div class="features">
+                            <span class="feature-tag">AC</span>
+                            <span class="feature-tag">Comfortable Seats</span>
+                        </div>
+                    </div>
+
+                    <div class="transpo-card" onclick="showRoute('Bachelor', [14.6315, 121.0555], 'Manila to Tuguegarao')">
+                        <div class="transpo-type">Bachelor Express</div>
+                        <div class="transpo-details">
+                            <span class="price">₱800 - ₱1,200</span>
+                            <span class="route">Manila → Tuguegarao</span>
+                        </div>
+                        <p>Long-distance bus service to Northern Luzon</p>
+                        <div class="features">
+                            <span class="feature-tag">AC</span>
+                            <span class="feature-tag">Sleeper Seats</span>
+                        </div>
+                    </div>
+
+                    <div class="transpo-card" onclick="showRoute('Rural Transit', [7.1907, 125.4553], 'Davao to Cagayan')">
+                        <div class="transpo-type">Rural Transit</div>
+                        <div class="transpo-details">
+                            <span class="price">₱500 - ₱800</span>
+                            <span class="route">Davao → Cagayan de Oro</span>
+                        </div>
+                        <p>Inter-city bus service in Mindanao</p>
+                        <div class="features">
+                            <span class="feature-tag">AC</span>
+                            <span class="feature-tag">Regular Stops</span>
+                        </div>
+                    </div>
+
+                    <div class="transpo-card" onclick="showRoute('Super Lines', [10.3157, 123.8854], 'Cebu to Ormoc')">
+                        <div class="transpo-type">Super Lines</div>
+                        <div class="transpo-details">
+                            <span class="price">₱400 - ₱600</span>
+                            <span class="route">Cebu → Ormoc</span>
+                        </div>
+                        <p>Inter-island bus service in Visayas</p>
+                        <div class="features">
+                            <span class="feature-tag">AC</span>
+                            <span class="feature-tag">Ferry Transfer</span>
+                        </div>
+                    </div>
+
+                    <!-- Train Routes -->
+                    <div class="transpo-card" onclick="showRoute('PNR North', [14.6087, 120.9720], 'Manila to Malolos')">
+                        <div class="transpo-type">PNR North Line</div>
+                        <div class="transpo-details">
+                            <span class="price">₱30 - ₱100</span>
+                            <span class="route">Manila → Malolos</span>
+                        </div>
+                        <p>Regular commuter train service</p>
+                        <div class="features">
+                            <span class="feature-tag">Regular Schedule</span>
+                            <span class="feature-tag">Economic</span>
+                        </div>
+                    </div>
+
+                    <div class="transpo-card" onclick="showRoute('PNR South', [14.6087, 120.9720], 'Manila to Alabang')">
+                        <div class="transpo-type">PNR South Line</div>
+                        <div class="transpo-details">
+                            <span class="price">₱30 - ₱100</span>
+                            <span class="route">Manila → Alabang</span>
+                        </div>
+                        <p>Regular commuter train service</p>
+                        <div class="features">
+                            <span class="feature-tag">Regular Schedule</span>
+                            <span class="feature-tag">Economic</span>
+                        </div>
+                    </div>
+
+                    <div class="transpo-card" onclick="showRoute('PNR Bicol', [14.6087, 120.9720], 'Manila to Naga')">
+                        <div class="transpo-type">PNR Bicol Express</div>
+                        <div class="transpo-details">
+                            <span class="price">₱500 - ₱1,000</span>
+                            <span class="route">Manila → Naga</span>
+                        </div>
+                        <p>Long-distance train service (Coming Soon)</p>
+                        <div class="features">
+                            <span class="feature-tag">Sleeper Cars</span>
+                            <span class="feature-tag">Dining Car</span>
+                        </div>
+                    </div>
+
+                    <div class="transpo-card" onclick="showRoute('LRT1', [14.6042, 120.9822], 'Baclaran to Roosevelt')">
+                        <div class="transpo-type">LRT Line 1</div>
+                        <div class="transpo-details">
+                            <span class="price">₱15 - ₱30</span>
+                            <span class="route">Baclaran → Roosevelt</span>
+                        </div>
+                        <p>Metro Manila light rail transit</p>
+                        <div class="features">
+                            <span class="feature-tag">Air-conditioned</span>
+                            <span class="feature-tag">Frequent Trips</span>
+                        </div>
+                    </div>
+
+                    <div class="transpo-card" onclick="showRoute('MRT3', [14.6042, 120.9822], 'North Ave to Taft')">
+                        <div class="transpo-type">MRT Line 3</div>
+                        <div class="transpo-details">
+                            <span class="price">₱15 - ₱30</span>
+                            <span class="route">North Ave → Taft</span>
+                        </div>
+                        <p>Metro Manila metro rail transit</p>
+                        <div class="features">
+                            <span class="feature-tag">Air-conditioned</span>
+                            <span class="feature-tag">Frequent Trips</span>
+                        </div>
+                    </div>
+
+                    <!-- Ferry Routes -->
+                    <div class="transpo-card" onclick="showRoute('2GO Manila-Cebu', [14.5980, 120.9726], 'Manila to Cebu')">
+                        <div class="transpo-type">2GO Travel Ferry</div>
+                        <div class="transpo-details">
+                            <span class="price">₱1,200 - ₱3,500</span>
+                            <span class="route">Manila → Cebu</span>
+                        </div>
+                        <p>Overnight ferry service with accommodations</p>
+                        <div class="features">
+                            <span class="feature-tag">Cabin</span>
+                            <span class="feature-tag">Restaurant</span>
+                            <span class="feature-tag">Entertainment</span>
+                        </div>
+                    </div>
+
+                    <div class="transpo-card" onclick="showRoute('2GO Manila-Iloilo', [14.5980, 120.9726], 'Manila to Iloilo')">
+                        <div class="transpo-type">2GO Travel Ferry</div>
+                        <div class="transpo-details">
+                            <span class="price">₱1,000 - ₱3,000</span>
+                            <span class="route">Manila → Iloilo</span>
+                        </div>
+                        <p>Overnight ferry service with accommodations</p>
+                        <div class="features">
+                            <span class="feature-tag">Cabin</span>
+                            <span class="feature-tag">Restaurant</span>
+                        </div>
+                    </div>
+
+                    <div class="transpo-card" onclick="showRoute('FastCat Batangas', [13.7565, 120.9822], 'Batangas to Calapan')">
+                        <div class="transpo-type">FastCat Ferry</div>
+                        <div class="transpo-details">
+                            <span class="price">₱200 - ₱400</span>
+                            <span class="route">Batangas → Calapan</span>
+                        </div>
+                        <p>RoRo ferry service to Mindoro</p>
+                        <div class="features">
+                            <span class="feature-tag">Vehicle Ferry</span>
+                            <span class="feature-tag">Air-conditioned</span>
+                        </div>
+                    </div>
+
+                    <div class="transpo-card" onclick="showRoute('OceanJet Cebu', [10.3157, 123.8854], 'Cebu to Tagbilaran')">
+                        <div class="transpo-type">OceanJet Ferry</div>
+                        <div class="transpo-details">
+                            <span class="price">₱500 - ₱800</span>
+                            <span class="route">Cebu → Tagbilaran</span>
+                        </div>
+                        <p>Fast ferry service to Bohol</p>
+                        <div class="features">
+                            <span class="feature-tag">Fast Craft</span>
+                            <span class="feature-tag">Air-conditioned</span>
+                        </div>
+                    </div>
+
+                    <div class="transpo-card" onclick="showRoute('SuperCat Cebu', [10.3157, 123.8854], 'Cebu to Ormoc')">
+                        <div class="transpo-type">SuperCat Ferry</div>
+                        <div class="transpo-details">
+                            <span class="price">₱600 - ₱900</span>
+                            <span class="route">Cebu → Ormoc</span>
+                        </div>
+                        <p>Fast ferry service to Leyte</p>
+                        <div class="features">
+                            <span class="feature-tag">Fast Craft</span>
+                            <span class="feature-tag">Air-conditioned</span>
+                        </div>
+                    </div>
+
+                    <div class="transpo-card" onclick="showRoute('Montenegro Iloilo', [10.7202, 122.5621], 'Iloilo to Bacolod')">
+                        <div class="transpo-type">Montenegro Lines</div>
+                        <div class="transpo-details">
+                            <span class="price">₱200 - ₱400</span>
+                            <span class="route">Iloilo → Bacolod</span>
+                        </div>
+                        <p>Regular ferry service between Panay and Negros</p>
+                        <div class="features">
+                            <span class="feature-tag">Regular Trips</span>
+                            <span class="feature-tag">Economic</span>
+                        </div>
+                    </div>
+
+                    <div class="transpo-card" onclick="showRoute('Weesam Dumaguete', [9.3075, 123.3089], 'Dumaguete to Siquijor')">
+                        <div class="transpo-type">Weesam Express</div>
+                        <div class="transpo-details">
+                            <span class="price">₱150 - ₱300</span>
+                            <span class="route">Dumaguete → Siquijor</span>
+                        </div>
+                        <p>Fast ferry service to Siquijor</p>
+                        <div class="features">
+                            <span class="feature-tag">Fast Craft</span>
+                            <span class="feature-tag">Regular Trips</span>
+                        </div>
+                    </div>
+
+                    <div class="transpo-card" onclick="showRoute('Lite Ferry Cebu', [10.3157, 123.8854], 'Cebu to Tubigon')">
+                        <div class="transpo-type">Lite Ferries</div>
+                        <div class="transpo-details">
+                            <span class="price">₱300 - ₱500</span>
+                            <span class="route">Cebu → Tubigon</span>
+                        </div>
+                        <p>RoRo ferry service to Bohol</p>
+                        <div class="features">
+                            <span class="feature-tag">Vehicle Ferry</span>
+                            <span class="feature-tag">Economy Class</span>
+                        </div>
+                    </div>
+
+                    <div class="transpo-card" onclick="showRoute('Starlite Batangas', [13.7565, 120.9822], 'Batangas to Caticlan')">
+                        <div class="transpo-type">Starlite Ferries</div>
+                        <div class="transpo-details">
+                            <span class="price">₱1,000 - ₱1,500</span>
+                            <span class="route">Batangas → Caticlan</span>
+                        </div>
+                        <p>RoRo ferry service to Boracay gateway</p>
+                        <div class="features">
+                            <span class="feature-tag">Vehicle Ferry</span>
+                            <span class="feature-tag">Tourist Class</span>
+                        </div>
+                    </div>
+
+                    <div class="transpo-card" onclick="showRoute('Cokaliong Cebu', [10.3157, 123.8854], 'Cebu to Surigao')">
+                        <div class="transpo-type">Cokaliong Shipping</div>
+                        <div class="transpo-details">
+                            <span class="price">₱800 - ₱1,200</span>
+                            <span class="route">Cebu → Surigao</span>
+                        </div>
+                        <p>Overnight ferry service to Mindanao</p>
+                        <div class="features">
+                            <span class="feature-tag">Cabin</span>
+                            <span class="feature-tag">Economy Class</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="map-container">
+                <div id="map" style="width: 100%; height: 100%;"></div>
+            </div>
+        </div>
     </div>
-    </div>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+    <script>
+        // Add flight search functionality
+        document.querySelector('.search-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Add search logic here
+        });
 
-    <script type="module" src="flight.js"></script>
+        // Add booking functionality
+        document.querySelectorAll('.book-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Add booking logic here
+                alert('Booking functionality will be implemented soon!');
+            });
+        });
+
+        // Initialize and add the map
+        let map;
+        let markers = [];
+
+        function initMap() {
+            // Philippines center coordinates
+            const philippines = [12.8797, 121.7740];
+            
+            // Create the map
+            map = L.map('map').setView(philippines, 6);
+            
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            // Transportation hubs data
+            const locations = [
+                {
+                    name: "Victory Liner Cubao Terminal",
+                    position: [14.6315, 121.0555],
+                    type: "Bus Terminal"
+                },
+                {
+                    name: "PNR Tutuban Station",
+                    position: [14.6087, 120.9720],
+                    type: "Train Station"
+                },
+                {
+                    name: "2GO Manila Terminal",
+                    position: [14.5980, 120.9726],
+                    type: "Ferry Terminal"
+                },
+                {
+                    name: "BGC Bus Terminal",
+                    position: [14.5547, 121.0244],
+                    type: "Bus Terminal"
+                },
+                {
+                    name: "Cebu South Bus Terminal",
+                    position: [10.2931, 123.8797],
+                    type: "Bus Terminal"
+                },
+                {
+                    name: "Davao City Overland Transport Terminal",
+                    position: [7.0810, 125.6127],
+                    type: "Bus Terminal"
+                }
+            ];
+
+            // Create markers for each location
+            locations.forEach(location => {
+                const marker = L.marker(location.position).addTo(map);
+                
+                // Create popup for each marker
+                marker.bindPopup(`
+                    <div style="padding: 10px;">
+                        <h3 style="margin: 0 0 5px 0;">${location.name}</h3>
+                        <p style="margin: 0;">${location.type}</p>
+                    </div>
+                `);
+
+                markers.push({
+                    marker: marker,
+                    position: location.position
+                });
+            });
+        }
+
+        // Function to show specific route
+        window.showRoute = function(name, coordinates, route) {
+            // Center map on selected location
+            map.setView(coordinates, 15);
+
+            // Find and highlight relevant marker
+            markers.forEach(markerObj => {
+                if (markerObj.position[0] === coordinates[0] && 
+                    markerObj.position[1] === coordinates[1]) {
+                    markerObj.marker.openPopup();
+                }
+            });
+        }
+
+        // Initialize map when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            initMap();
+            loadTransportationData();
+
+            // Add hide buttons to existing static flight cards
+            const existingCards = document.querySelectorAll('.flight-card');
+            existingCards.forEach(card => {
+                if (!card.querySelector('.hide-btn')) {
+                    const hideBtn = document.createElement('button');
+                    hideBtn.className = 'hide-btn';
+                    hideBtn.title = 'Hide this flight';
+                    hideBtn.innerHTML = '<i class="bx bx-x"></i>';
+                    hideBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        card.classList.add('hidden');
+                    });
+                    card.insertBefore(hideBtn, card.firstChild);
+                }
+            });
+        });
+
+        // Function to create a flight card
+        function createFlightCard(flight) {
+            const card = document.createElement('div');
+            card.className = 'flight-card';
+            card.innerHTML = `
+                <button class="hide-btn" title="Hide this flight"><i class='bx bx-x'></i></button>
+                <div class="airline-info">
+                    <img src="${flight.logo}" alt="${flight.airline}" class="airline-logo">
+                    <span>${flight.airline}</span>
+                </div>
+                <div class="flight-details">
+                    <div class="time">${flight.departureTime}</div>
+                    <div class="route">${flight.from} → ${flight.to}</div>
+                    <div class="time">${flight.arrivalTime}</div>
+                </div>
+                <div class="duration">${flight.duration}</div>
+                <div class="price-section">
+                    <div class="price">₱${flight.price}</div>
+                    <button class="book-btn">Book Now</button>
+                </div>
+            `;
+
+            // Add hide functionality
+            const hideBtn = card.querySelector('.hide-btn');
+            hideBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                card.classList.add('hidden');
+            });
+
+            return card;
+        }
+
+        // Function to create a transport card
+        function createTransportCard(transport, type) {
+            const card = document.createElement('div');
+            card.className = 'transpo-card';
+            card.dataset.type = type; // Add type as data attribute for filtering
+            
+            if (transport.coordinates) {
+                card.setAttribute('onclick', `showRoute('${transport.company}', [${transport.coordinates}], '${transport.from} to ${transport.to}')`);
+            }
+            
+            const typeIcon = type === 'ferry' ? 'bxs-ship' : 'bxs-bus';
+            
+            card.innerHTML = `
+                <div class="transpo-type">
+                    <i class='bx ${typeIcon}'></i>
+                    ${transport.company}
+                </div>
+                <div class="transpo-details">
+                    <span class="price">₱${transport.price}</span>
+                    <span class="route">${transport.from} → ${transport.to}</span>
+                </div>
+                <div class="schedule">
+                    <span><i class='bx bx-time'></i> ${transport.departureTime} - ${transport.arrivalTime}</span>
+                    <span><i class='bx bx-timer'></i> ${transport.duration}</span>
+                </div>
+                <p>${transport.description || ''}</p>
+                <div class="features">
+                    ${transport.features.map(feature => `<span class="feature-tag"><i class='bx bx-check'></i>${feature}</span>`).join('')}
+                </div>
+            `;
+            return card;
+        }
+
+        // Add search functionality
+        document.querySelector('.search-input').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.transpo-card');
+            
+            cards.forEach(card => {
+                const type = card.querySelector('.transpo-type').textContent.toLowerCase();
+                const route = card.querySelector('.route').textContent.toLowerCase();
+                
+                if (type.includes(searchTerm) || route.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Add filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const filterType = btn.textContent.toLowerCase();
+                const cards = document.querySelectorAll('.transpo-card');
+                
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                cards.forEach(card => {
+                    if (filterType === 'all') {
+                        card.style.display = 'block';
+                    } else {
+                        const cardType = card.dataset.type;
+                        card.style.display = (cardType === filterType) ? 'block' : 'none';
+                    }
+                });
+            });
+        });
+
+        // Function to load and display transportation data
+        function loadTransportationData() {
+            try {
+                const transportListings = JSON.parse(localStorage.getItem('transportListings')) || { 
+                    flights: [], 
+                    ferries: [], 
+                    buses: [] 
+                };
+                
+                console.log('Loading transport listings:', transportListings); // Debug log
+                
+                // Display flights in flight-results section
+                if (transportListings.flights && transportListings.flights.length > 0) {
+                    const flightResults = document.querySelector('.flight-results');
+                    transportListings.flights.forEach(flight => {
+                        const flightCard = createFlightCard(flight);
+                        flightResults.appendChild(flightCard);
+                    });
+                }
+
+                // Display ferries and buses in transport-list section
+                const transportList = document.querySelector('.transport-list');
+                
+                if (transportListings.ferries && transportListings.ferries.length > 0) {
+                    transportListings.ferries.forEach(ferry => {
+                        const ferryCard = createTransportCard(ferry, 'ferry');
+                        transportList.appendChild(ferryCard);
+                    });
+                }
+
+                if (transportListings.buses && transportListings.buses.length > 0) {
+                    transportListings.buses.forEach(bus => {
+                        const busCard = createTransportCard(bus, 'bus');
+                        transportList.appendChild(busCard);
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading transportation data:', error);
+            }
+        }
+    </script>
 </body>
-
 </html>

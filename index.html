@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wayfarer's</title>
@@ -13,6 +12,209 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
+    <style>
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            overflow: auto;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 0;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 15px;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #333;
+            cursor: pointer;
+            z-index: 1;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        #modalImage {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .modal-info {
+            padding: 25px;
+        }
+
+        .modal-header {
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            font-size: 28px;
+            color: #333;
+            margin: 0 0 5px 0;
+        }
+
+        .modal-header p {
+            font-size: 16px;
+            color: #666;
+            margin: 0;
+        }
+
+        .modal-description {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .activities-section h3 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .activities-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .activities-list li {
+            position: relative;
+            padding: 10px 0 10px 20px;
+            color: #555;
+            font-size: 16px;
+        }
+
+        .activities-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #2A9D8F;
+        }
+
+        .location-info {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-tag {
+            background: #f0f0f0;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .transport-info {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .transport-info p {
+            margin: 5px 0;
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                margin: 3% auto;
+            }
+        }
+
+        /* Fix the syntax error in the hover effect */
+        .thum {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .thum:hover {
+            transform: translateY(-5px);
+        }
+
+        .thum::before {
+            content: 'Click to view details';
+            position: absolute;
+            bottom: -50px;
+            left: 0;
+            right: 0;
+            background: rgba(42, 157, 143, 0.9);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            transition: bottom 0.3s ease;
+        }
+
+        .thum:hover::before {
+            bottom: 0;
+        }
+
+        .col-content {
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .col-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .col-content::before {
+            content: 'Click to view details';
+            position: absolute;
+            bottom: -40px;
+            left: 0;
+            right: 0;
+            background: rgba(42, 157, 143, 0.9);
+            color: white;
+            padding: 8px;
+            text-align: center;
+            transition: bottom 0.3s ease;
+            font-size: 14px;
+        }
+
+        .col-content:hover::before {
+            bottom: 0;
+        }
+
+        .col-content img {
+            transition: transform 0.3s ease;
+        }
+
+        .col-content:hover img {
+            transform: scale(1.1);
+        }
+    </style>
+
     <script src="index.js"></script>
 
 
@@ -20,7 +222,7 @@
 
 <body>
     <header class="header">
-        <a href="#" class="logo" style="margin: 0; display: flex; align-items: center; gap: 10px;"><img src="logo.png" alt="My logo" width="150">Wayfarers</a>
+        <a href="#" class="logo" style="margin: 0; display: flex; align-items: center; gap: 10px;"><img src="logo.png" alt="My logo" width="100">Wayfarers</a>
         <div class="bx bx-menu" id="menu-icon"></div>
 
         <ul style="list-style-type: none;" class="navbar">
@@ -39,6 +241,36 @@
 
     </header>
 
+    <!-- Add Modal Component -->
+    <div id="locationModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <img id="modalImage" src="" alt="Location Image">
+            <div class="modal-info">
+                <div class="modal-header">
+                    <h2 id="modalTitle"></h2>
+                    <p id="modalRegion"></p>
+                </div>
+                
+                <div class="location-info">
+                    <span id="modalPrice" class="info-tag"></span>
+                    <span id="modalDuration" class="info-tag"></span>
+                </div>
+
+                <p id="modalDescription" class="modal-description"></p>
+
+                <div class="activities-section">
+                    <h3>Popular Activities:</h3>
+                    <ul id="modalActivities" class="activities-list"></ul>
+                </div>
+
+                <div class="transport-info">
+                    <p id="modalTransport"></p>
+                    <p id="modalParking"></p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <section class="home" id="home">
         <div class="home-text">
@@ -77,7 +309,7 @@
                         <img src="plane-alt-solid-24.png" class="big-icon">
                     </div>
                 </a>
-                <h4>Flights</h4>
+                <h4>Book Now!</h4>
                 <p></p>
 
 
@@ -118,10 +350,20 @@
 
         <div class="package-content ">
             <div class="box ">
-                <div class="thum ">
+                <div class="thum" onclick="openModal(
+                    'Palawan',
+                    'palawan.jpg',
+                    '₱1,499',
+                    '4h - 5h',
+                    'Experience the stunning limestone cliffs, pristine beaches, and crystal-clear lagoons of Palawan. Known as the Philippines\' last frontier, Palawan offers world-class diving, island hopping, and unforgettable natural wonders.',
+                    ['Island Hopping Tours', 'Underground River Exploration', 'Scuba Diving & Snorkeling', 'Beach Activities', 'Kayaking in Small Lagoon', 'Local Food Tasting'],
+                    'Luzon',
+                    'Bus #24 nearby',
+                    'Free parking'
+                )">
                     <img src="palawan.jpg">
                     <h3>₱1,499</h3>
-                   </div>
+                </div>
                 
                 <div class="dest-content ">
                     <div class="location ">
@@ -135,24 +377,24 @@
                 
                 
                   <div class="rating">
-  <input type="radio" id="star-1" name="star-radio" value="star-1">
-  <label for="star-1">
+  <input type="radio" id="palawan-star-1" name="palawan-rating" value="1">
+  <label for="palawan-star-1">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
   </label>
-  <input type="radio" id="star-2" name="star-radio" value="star-1">
-  <label for="star-2">
+  <input type="radio" id="palawan-star-2" name="palawan-rating" value="2">
+  <label for="palawan-star-2">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
   </label>
-  <input type="radio" id="star-3" name="star-radio" value="star-1">
-  <label for="star-3">
+  <input type="radio" id="palawan-star-3" name="palawan-rating" value="3">
+  <label for="palawan-star-3">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
   </label>
-  <input type="radio" id="star-4" name="star-radio" value="star-1">
-  <label for="star-4">
+  <input type="radio" id="palawan-star-4" name="palawan-rating" value="4">
+  <label for="palawan-star-4">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
   </label>
-  <input type="radio" id="star-5" name="star-radio" value="star-1">
-  <label for="star-5">
+  <input type="radio" id="palawan-star-5" name="palawan-rating" value="5">
+  <label for="palawan-star-5">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
   </label>
 </div>
@@ -163,10 +405,20 @@
 
 
             <div class="box ">
-                <div class="thum ">
+                <div class="thum" onclick="openModal(
+                    'Masbate',
+                    'mas.jpg',
+                    '₱1,299',
+                    '5h - 6h',
+                    'Discover the hidden gem of Masbate with its pristine beaches, rich marine life, and famous rodeo festivals. Experience traditional Filipino culture and enjoy various water activities in this underrated paradise.',
+                    ['Rodeo Festival Experience', 'Beach Hopping', 'Marine Sanctuary Visit', 'Traditional Dance Shows', 'Local Craft Workshops', 'Seafood Dining'],
+                    'Visayas',
+                    'Metro: Central Station',
+                    'Paid parking'
+                )">
                     <img src="mas.jpg">
                     <h3>₱1,299</h3>
-                   </div>
+                </div>
                 
                 <div class="dest-content ">
                     <div class="location ">
@@ -178,25 +430,25 @@
                 
                 
                 
-                                    <div class="ratin">
-  <input type="radio" id="star-1" name="star-radio" value="star-1">
-  <label for="star-1">
+                                    <div class="rating">
+  <input type="radio" id="masbate-star-1" name="masbate-rating" value="1">
+  <label for="masbate-star-1">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
   </label>
-  <input type="radio" id="star-2" name="star-radio" value="star-1">
-  <label for="star-2">
+  <input type="radio" id="masbate-star-2" name="masbate-rating" value="2">
+  <label for="masbate-star-2">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
   </label>
-  <input type="radio" id="star-3" name="star-radio" value="star-1">
-  <label for="star-3">
+  <input type="radio" id="masbate-star-3" name="masbate-rating" value="3">
+  <label for="masbate-star-3">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
   </label>
-  <input type="radio" id="star-4" name="star-radio" value="star-1">
-  <label for="star-4">
+  <input type="radio" id="masbate-star-4" name="masbate-rating" value="4">
+  <label for="masbate-star-4">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
   </label>
-  <input type="radio" id="star-5" name="star-radio" value="star-1">
-  <label for="star-5">
+  <input type="radio" id="masbate-star-5" name="masbate-rating" value="5">
+  <label for="masbate-star-5">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
   </label>
 </div>
@@ -207,10 +459,20 @@
             </div>
 
             <div class="box ">
-                <div class="thum ">
-                    <img src="boracay.jpg">
+                <div class="thum" onclick="openModal(
+                    'Boracay',
+                    'boracay.jpg',
+                    '₱1,599',
+                    '1h - 2h',
+                    'Visit the world-famous Boracay Island, home to powdery white sand beaches and crystal blue waters. Enjoy water sports, stunning sunsets, and vibrant nightlife in this tropical paradise.',
+                    ['White Beach Activities', 'Water Sports Adventures', 'Sunset Sailing', 'Island Hopping Tours', 'Parasailing & Jet Skiing', 'Beach Club Parties'],
+                    'Visayas',
+                    'Metro: North Station',
+                    'Paid parking'
+                )">
+                    <img src="bora.jpg">
                     <h3>₱1,599</h3>
-                   </div>
+                </div>
                 
                 <div class="dest-content ">
                     <div class="location ">
@@ -223,24 +485,24 @@
                 </div>
             
                                     <div class="rating">
-  <input type="radio" id="star-1" name="star-radio" value="star-1">
-  <label for="star-1">
+  <input type="radio" id="boracay-star-1" name="boracay-rating" value="1">
+  <label for="boracay-star-1">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
   </label>
-  <input type="radio" id="star-2" name="star-radio" value="star-1">
-  <label for="star-2">
+  <input type="radio" id="boracay-star-2" name="boracay-rating" value="2">
+  <label for="boracay-star-2">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
   </label>
-  <input type="radio" id="star-3" name="star-radio" value="star-1">
-  <label for="star-3">
+  <input type="radio" id="boracay-star-3" name="boracay-rating" value="3">
+  <label for="boracay-star-3">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
   </label>
-  <input type="radio" id="star-4" name="star-radio" value="star-1">
-  <label for="star-4">
+  <input type="radio" id="boracay-star-4" name="boracay-rating" value="4">
+  <label for="boracay-star-4">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
   </label>
-  <input type="radio" id="star-5" name="star-radio" value="star-1">
-  <label for="star-5">
+  <input type="radio" id="boracay-star-5" name="boracay-rating" value="5">
+  <label for="boracay-star-5">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
   </label>
 </div>
@@ -264,72 +526,175 @@
             <h2>Our Most Popular <br> Destination!</h2>
         </div>
 
-        <div class="destination-content ">
-            <div class="col-content ">
-                <img src="manila.jpg.jpg" >
+        <div class="destination-content">
+            <div class="col-content" onclick="openModal(
+                'Manila',
+                'manila.jpg.jpg',
+                '₱999',
+                '1h - 2h',
+                'Experience the vibrant capital city of the Philippines. Manila offers a unique blend of historical sites, modern attractions, and diverse cultural experiences. From ancient walled cities to contemporary shopping districts.',
+                ['Visit Intramuros', 'Tour Fort Santiago', 'Shop at Mall of Asia', 'Visit National Museum', 'Manila Bay Sunset', 'Food Tour in Binondo'],
+                'Luzon',
+                'Multiple train stations nearby',
+                'Paid parking available'
+            )">
+                <img src="manila.jpg.jpg">
                 <h5>Manila</h5>
                 <p>Luzon</p>
-
-
             </div>
 
-            <div class="col-content ">
-                <img src="vigan.jpg.jpg" >
+            <div class="col-content" onclick="openModal(
+                'Vigan',
+                'vigan.jpg.jpg',
+                '₱1,299',
+                '8h - 9h',
+                'Step back in time in this UNESCO World Heritage site. Vigan is famous for its well-preserved Spanish colonial architecture, cobblestone streets, and rich cultural heritage.',
+                ['Heritage Street Walk', 'Horse-drawn Kalesa Ride', 'Pottery Making', 'Historical Museum Tours', 'Local Craft Shopping', 'Traditional Food Tasting'],
+                'Luzon',
+                'Bus terminal nearby',
+                'Street parking available'
+            )">
+                <img src="vigan.jpg.jpg">
                 <h5>Vigan</h5>
                 <p>Luzon</p>
-
-
             </div>
 
-            <div class="col-content ">
-                <img src="samar2.jpg.jpg" >
+            <div class="col-content" onclick="openModal(
+                'Samar',
+                'samar2.jpg.jpg',
+                '₱1,199',
+                '3h - 4h',
+                'Discover the natural wonders of Samar, home to stunning cave systems, waterfalls, and rock formations. Perfect for adventure seekers and nature lovers.',
+                ['Cave Exploration', 'Island Hopping', 'River Adventure', 'Waterfall Trek', 'Local Village Visit', 'Seafood Dining'],
+                'Visayas',
+                'Van terminal available',
+                'Free parking'
+            )">
+                <img src="samar2.jpg.jpg">
                 <h5>Samar</h5>
                 <p>Visayas</p>
-
-
             </div>
 
-            <div class="col-content ">
-                <img src="davao.jpg.jpg" >
+            <div class="col-content" onclick="openModal(
+                'Davao',
+                'davao.jpg.jpg',
+                '₱1,399',
+                '2h - 3h',
+                'Visit the largest city in Mindanao, known for its durian fruits, Mount Apo, and Philippine Eagle Center. Experience the perfect blend of urban comfort and natural attractions.',
+                ['Philippine Eagle Center', 'Eden Nature Park', 'Durian Tasting', 'Island Hopping', 'Mount Apo View', 'Cultural Village Tour'],
+                'Mindanao',
+                'Airport and bus terminals nearby',
+                'Multiple parking areas'
+            )">
+                <img src="davao.jpg.jpg">
                 <h5>Davao</h5>
                 <p>Mindanao</p>
-
-
             </div>
 
-            <div class="col-content ">
-                <img src="cavite.jpg" >
+            <div class="col-content" onclick="openModal(
+                'Cavite',
+                'cavite.jpg',
+                '₱899',
+                '1h - 2h',
+                'Explore the historical province of Cavite, birthplace of Philippine independence. Visit historical sites, enjoy local cuisine, and experience modern attractions.',
+                ['Historical Sites Tour', 'Corregidor Island Visit', 'Local Food Trip', 'Beach Resort Visit', 'Museum Hopping', 'Heritage Walk'],
+                'Luzon',
+                'Bus #24 nearby',
+                'Free parking available'
+            )">
+                <img src="cavite.jpg">
                 <h5>Cavite</h5>
                 <p>Luzon</p>
-
-
             </div>
-            <div class="col-content ">
-                <img src="bacolod.jpg" >
+
+            <div class="col-content" onclick="openModal(
+                'Bacolod',
+                'bacolod.jpg',
+                '₱1,299',
+                '3h - 4h',
+                'Known as the City of Smiles, Bacolod offers a perfect mix of heritage sites, famous cuisine, and festive culture. Home to the colorful MassKara Festival.',
+                ['MassKara Festival', 'Food Tour', 'Heritage House Visit', 'The Ruins Tour', 'Countryside Trip', 'Sugar Plantation Tour'],
+                'Visayas',
+                'Airport and seaport nearby',
+                'Paid parking areas'
+            )">
+                <img src="bacolod.jpg">
                 <h5>Bacolod</h5>
                 <p>Visayas</p>
-
-
             </div>
-            <div class="col-content ">
-                <img src="leyte.jpg.jpg" >
+
+            <div class="col-content" onclick="openModal(
+                'Leyte',
+                'leyte.jpg.jpg',
+                '₱1,199',
+                '4h - 5h',
+                'Discover the historical and natural beauty of Leyte. From World War II sites to stunning beaches and lakes, Leyte offers diverse experiences for all travelers.',
+                ['MacArthur Landing', 'Lake Danao Visit', 'Historical Sites', 'Island Hopping', 'Kalanggaman Island', 'Local Market Tour'],
+                'Visayas',
+                'Airport and van terminals',
+                'Public parking available'
+            )">
+                <img src="leyte.jpg.jpg">
                 <h5>Leyte</h5>
                 <p>Visayas</p>
-
-
             </div>
-            <div class="col-content ">
-                <img src="mayon.jpg" >
+
+            <div class="col-content" onclick="openModal(
+                'Bicol',
+                'mayon.jpg',
+                '₱1,499',
+                '5h - 6h',
+                'Home to the majestic Mayon Volcano and known for its spicy cuisine. Bicol offers adventure sports, natural wonders, and unique culinary experiences.',
+                ['View Mayon Volcano', 'Try Bicol Express', 'ATV Adventure', 'Island Hopping', 'Hot Spring Resort', 'Whale Shark Watching'],
+                'Luzon',
+                'Bus terminal and airport nearby',
+                'Multiple parking options'
+            )">
+                <img src="mayon.jpg">
                 <h5>Bicol</h5>
                 <p>Luzon</p>
-
-
             </div>
-
-        
-
         </div>
 
+        <style>
+            .col-content {
+                cursor: pointer;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                border-radius: 10px;
+                overflow: hidden;
+            }
+
+            .col-content:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            }
+
+            .col-content::before {
+                content: 'Click to view details';
+                position: absolute;
+                bottom: -40px;
+                left: 0;
+                right: 0;
+                background: rgba(42, 157, 143, 0.9);
+                color: white;
+                padding: 8px;
+                text-align: center;
+                transition: bottom 0.3s ease;
+                font-size: 14px;
+            }
+
+            .col-content:hover::before {
+                bottom: 0;
+            }
+
+            .col-content img {
+                transition: transform 0.3s ease;
+            }
+
+            .col-content:hover img {
+                transform: scale(1.1);
+            }
+        </style>
 
     </section>
 
@@ -337,7 +702,7 @@
     <section class="newsletter ">
         <div class="news-text ">
             <h2>Send Email Address!</h2>
-            <p>Get updated for more Trip Availables</p>
+            <p>Do You have Travel Company Email Us! </p>
          </div>
 
          <div class="Send ">
@@ -374,12 +739,12 @@
                 </div>
 
                 <div class="list ">
-                    <h4>Support</h4>
+                    <h4>Be part of Us</h4>
                     <ul style=" list-style-type: none; padding: 0; ">
-                        <li><a href="# ">About us</a></li>
-                        <li><a href="# ">Terms & Conditions</a></li>
-                        <li><a href="# ">Privacy Policy</a></li>
-                        <li><a href="# ">Help</a></li>
+                        <li><a href="seller.html">Hotel Provider </a></li>
+                        <li><a href="stranspo.html">Transpo Provider </a></li>
+                        <li><a href="spackage.html">Tour Seller</a></li>
+                        <li><a href="# ">Travel Agency</a></li>
                         <li><a href="# ">Tour</a></li>
 
 
@@ -403,7 +768,7 @@
                 </div>
 
                 <div class="list ">
-                    <h4>Quick Links</h4>
+                    <h4>Address</h4>
                     <ul style=" list-style-type: none; padding: 0; ">
                         <li><a href="# ">362 San Jose, Carmona,</a></li>
                         <li><a href="# ">4116 Cavite</a></li>
@@ -449,8 +814,51 @@
 
  <script src="HOME.JS"></script>
 
+<script>
+    // Modal functionality
+    function openModal(title, image, price, duration, description, activities, region, transport, parking) {
+        const modal = document.getElementById('locationModal');
+        if (!modal) {
+            console.error('Modal element not found');
+            return;
+        }
+        
+        document.getElementById('modalTitle').textContent = title;
+        document.getElementById('modalImage').src = image;
+        document.getElementById('modalPrice').textContent = price;
+        document.getElementById('modalDuration').textContent = duration;
+        document.getElementById('modalDescription').textContent = description;
+        document.getElementById('modalRegion').textContent = region;
+        document.getElementById('modalTransport').textContent = transport;
+        document.getElementById('modalParking').textContent = parking;
+        
+        // Populate activities
+        const activitiesList = document.getElementById('modalActivities');
+        activitiesList.innerHTML = '';
+        activities.forEach(activity => {
+            const li = document.createElement('li');
+            li.textContent = activity;
+            activitiesList.appendChild(li);
+        });
+        
+        modal.style.display = 'block';
 
+        // Close modal when clicking the X button
+        const closeBtn = document.querySelector('.close-modal');
+        if (closeBtn) {
+            closeBtn.onclick = function() {
+                modal.style.display = 'none';
+            }
+        }
 
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    }
+</script>
 
 </body>
 

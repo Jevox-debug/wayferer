@@ -9,12 +9,144 @@
   <link rel="icon" href="logo.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.8);
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: 5% auto;
+      padding: 20px;
+      width: 80%;
+      max-width: 700px;
+      border-radius: 10px;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .close {
+      position: absolute;
+      right: 20px;
+      top: 10px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #333;
+    }
+
+    .close:hover {
+      color: #000;
+    }
+
+    .modal-image {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .modal-title {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .modal-region {
+      font-size: 18px;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    .modal-description {
+      margin-bottom: 20px;
+      line-height: 1.6;
+      color: #444;
+    }
+
+    .activities-list {
+      list-style: none;
+    }
+
+    .activities-list li {
+      margin-bottom: 10px;
+      padding-left: 25px;
+      position: relative;
+    }
+
+    .activities-list li:before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #FE2C55;
+    }
+
+    .location-card {
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .location-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+
+    .location-card:active {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+
+    .location-card::before {
+      content: 'Click to view details';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 2;
+    }
+
+    .location-card:hover::before {
+      opacity: 1;
+    }
+
+    .location-card img {
+      transition: transform 0.3s ease;
+    }
+
+    .location-card:hover img {
+      transform: scale(1.1);
+    }
+  </style>
 </head>
 <body>
 
 
     <header class="header">
-        <a href="#" class="logo" style="margin: 0; display: flex; align-items: center; gap: 10px;"><img src="logo.png" alt="My logo" width="150">Wayfarers</a>
+        <a href="#" class="logo" style="margin: 0; display: flex; align-items: center; gap: 10px;"><img src="logo.png" alt="My logo" width="100">Wayfarers</a>
         <div class="bx bx-menu" id="menu-icon"></div>
 
         <ul style="list-style-type: none;" class="navbar">
@@ -39,7 +171,7 @@
     <div class="location-grid">
       <!-- Location Card 1 -->
       <div class="location-card">
-        <img src="manila.jpg.jpg" alt="Location 1">
+        <img src="manila.jpg.jpg" alt="Manila">
         <div class="card-details">
           <h2>Manila</h2>
           <p>Luzon</p>
@@ -53,7 +185,7 @@
 
       
       <div class="location-card">
-        <img src="mayon.jpg" alt="Location 2">
+        <img src="mayon.jpg" alt="Bicol">
         <div class="card-details">
           <h2>Bicol</h2>
           <p>Luzon</p>
@@ -66,7 +198,7 @@
       </div>
 
       <div class="location-card">
-        <img src="leyte.jpg.jpg" alt="Location 2">
+        <img src="leyte.jpg.jpg" alt="Leyte">
         <div class="card-details">
           <h2>Leyte</h2>
           <p>Visayas</p>
@@ -79,7 +211,7 @@
       </div>
 
       <div class="location-card">
-        <img src="palawan.jpg" alt="Location 2">
+        <img src="palawan.jpg" alt="Palawan">
         <div class="card-details">
           <h2>Palawan</h2>
           <p>Luzon</p>
@@ -92,7 +224,7 @@
       </div>
 
       <div class="location-card">
-        <img src="davao.jpg.jpg" alt="Location 2">
+        <img src="davao.jpg.jpg" alt="Davao">
         <div class="card-details">
           <h2>Davao</h2>
           <p>Mindanao</p>
@@ -108,7 +240,7 @@
       <!-- You can duplicate and change info/images as needed -->
 
       <div class="location-card">
-        <img src="mas.jpg" alt="Location 3">
+        <img src="mas.jpg" alt="Masbate">
         <div class="card-details">
           <h2>Masbate</h2>
           <p>Visayas</p>
@@ -121,7 +253,622 @@
       </div>
 
       <!-- Continue until you have 10 cards -->
+      
+      <div class="location-card">
+        <img src="bohol.jpg" alt="Bohol">
+        <div class="card-details">
+          <h2>Bohol</h2>
+          <p>Visayas</p>
+          <ul>
+            <li><i class="fas fa-plane"></i> Panglao International Airport</li>
+            <li><i class="fas fa-ship"></i> Ferry from Cebu</li>
+            <li><i class="fas fa-car"></i> Local van rentals</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="location-card">
+        <img src="siargao.jpg" alt="Siargao">
+        <div class="card-details">
+          <h2>Siargao</h2>
+          <p>Mindanao</p>
+          <ul>
+            <li><i class="fas fa-plane"></i> Sayak Airport</li>
+            <li><i class="fas fa-motorcycle"></i> Motorbike rentals</li>
+            <li><i class="fas fa-car"></i> Van transfers</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="location-card">
+        <img src="cebu.jpg" alt="Cebu">
+        <div class="card-details">
+          <h2>Cebu</h2>
+          <p>Visayas</p>
+          <ul>
+            <li><i class="fas fa-plane"></i> Mactan-Cebu International</li>
+            <li><i class="fas fa-bus"></i> MyBus service</li>
+            <li><i class="fas fa-car"></i> Grab available</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="location-card">
+        <img src="vigan.jpg.jpg" alt="Vigan">
+        <div class="card-details">
+          <h2>Vigan</h2>
+          <p>Luzon</p>
+          <ul>
+            <li><i class="fas fa-bus"></i> Partas Bus Terminal</li>
+            <li><i class="fas fa-horse-head"></i> Kalesa tours</li>
+            <li><i class="fas fa-walking"></i> Walking tours</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="location-card">
+        <img src="boracay.jpg" alt="Boracay">
+        <div class="card-details">
+          <h2>Boracay</h2>
+          <p>Visayas</p>
+          <ul>
+            <li><i class="fas fa-plane"></i> Caticlan Airport</li>
+            <li><i class="fas fa-ship"></i> Ferry service</li>
+            <li><i class="fas fa-bicycle"></i> Bike rentals</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="location-card">
+        <img src="batanes.jpg" alt="Batanes">
+        <div class="card-details">
+          <h2>Batanes</h2>
+          <p>Luzon</p>
+          <ul>
+            <li><i class="fas fa-plane"></i> Basco Airport</li>
+            <li><i class="fas fa-bicycle"></i> Bicycle tours</li>
+            <li><i class="fas fa-car"></i> Van tours</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="location-card">
+        <img src="sagada.jpg" alt="Sagada">
+        <div class="card-details">
+          <h2>Sagada</h2>
+          <p>Luzon</p>
+          <ul>
+            <li><i class="fas fa-bus"></i> Coda Lines Bus</li>
+            <li><i class="fas fa-hiking"></i> Hiking trails</li>
+            <li><i class="fas fa-car"></i> Jeepney tours</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="location-card">
+        <img src="coron.jpg" alt="Coron">
+        <div class="card-details">
+          <h2>Coron</h2>
+          <p>Luzon</p>
+          <ul>
+            <li><i class="fas fa-plane"></i> Busuanga Airport</li>
+            <li><i class="fas fa-ship"></i> Island hopping</li>
+            <li><i class="fas fa-car"></i> Van transfers</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="location-card">
+        <img src="siquihor.jpg" alt="Siquijor">
+        <div class="card-details">
+          <h2>Siquijor</h2>
+          <p>Visayas</p>
+          <ul>
+            <li><i class="fas fa-ship"></i> Ferry from Dumaguete</li>
+            <li><i class="fas fa-motorcycle"></i> Motorbike rental</li>
+            <li><i class="fas fa-car"></i> Tricycle tours</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="location-card">
+        <img src="camigin.jpg" alt="Camiguin">
+        <div class="card-details">
+          <h2>Camiguin</h2>
+          <p>Mindanao</p>
+          <ul>
+            <li><i class="fas fa-plane"></i> Camiguin Airport</li>
+            <li><i class="fas fa-motorcycle"></i> Motorbike tours</li>
+            <li><i class="fas fa-car"></i> Multicab service</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="location-card">
+        <img src="banaue.jpg" alt="Banaue">
+        <div class="card-details">
+          <h2>Banaue</h2>
+          <p>Luzon</p>
+          <ul>
+            <li><i class="fas fa-bus"></i> Ohayami Bus</li>
+            <li><i class="fas fa-hiking"></i> Rice terrace tours</li>
+            <li><i class="fas fa-car"></i> Jeepney transport</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="location-card">
+        <img src="zambales.jpg" alt="Zambales">
+        <div class="card-details">
+          <h2>Zambales</h2>
+          <p>Luzon</p>
+          <ul>
+            <li><i class="fas fa-bus"></i> Victory Liner</li>
+            <li><i class="fas fa-ship"></i> Island hopping</li>
+            <li><i class="fas fa-car"></i> Beach transfers</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="location-card">
+        <img src="iloilo.jpg" alt="Iloilo">
+        <div class="card-details">
+          <h2>Iloilo</h2>
+          <p>Visayas</p>
+          <ul>
+            <li><i class="fas fa-plane"></i> Iloilo International</li>
+            <li><i class="fas fa-train"></i> Heritage walks</li>
+            <li><i class="fas fa-car"></i> Taxi service</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="location-card">
+        <img src="batangas.jpg" alt="Batangas">
+        <div class="card-details">
+          <h2>Batangas</h2>
+          <p>Luzon</p>
+          <ul>
+            <li><i class="fas fa-bus"></i> JAM Transit</li>
+            <li><i class="fas fa-ship"></i> Beach resorts</li>
+            <li><i class="fas fa-car"></i> Private transport</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="location-card">
+        <img src="dumagete.jpg" alt="Dumaguete">
+        <div class="card-details">
+          <h2>Dumaguete</h2>
+          <p>Visayas</p>
+          <ul>
+            <li><i class="fas fa-plane"></i> Sibulan Airport</li>
+            <li><i class="fas fa-motorcycle"></i> Easy bike rental</li>
+            <li><i class="fas fa-car"></i> Tricycle tours</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="location-card">
+        <img src="cagayan.jpg" alt="Cagayan de Oro">
+        <div class="card-details">
+          <h2>Cagayan de Oro</h2>
+          <p>Mindanao</p>
+          <ul>
+            <li><i class="fas fa-plane"></i> Laguindingan Airport</li>
+            <li><i class="fas fa-water"></i> White water rafting</li>
+            <li><i class="fas fa-car"></i> City transport</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="location-card">
+        <img src="tagaytay.jpg" alt="Tagaytay">
+        <div class="card-details">
+          <h2>Tagaytay</h2>
+          <p>Luzon</p>
+          <ul>
+            <li><i class="fas fa-bus"></i> DLTB Bus</li>
+            <li><i class="fas fa-mountain"></i> Taal viewing</li>
+            <li><i class="fas fa-car"></i> Tourist vans</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="location-card">
+        <img src="baguio.jpg" alt="Baguio">
+        <div class="card-details">
+          <h2>Baguio</h2>
+          <p>Luzon</p>
+          <ul>
+            <li><i class="fas fa-bus"></i> Victory Liner</li>
+            <li><i class="fas fa-taxi"></i> City taxis</li>
+            <li><i class="fas fa-walking"></i> Walking tours</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="location-card">
+        <img src="puerto princessa.jpg" alt="Puerto Princesa">
+        <div class="card-details">
+          <h2>Puerto Princesa</h2>
+          <p>Luzon</p>
+          <ul>
+            <li><i class="fas fa-plane"></i> International Airport</li>
+            <li><i class="fas fa-ship"></i> Underground River</li>
+            <li><i class="fas fa-car"></i> Van tours</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="location-card">
+        <img src="bacolod.jpg" alt="Bacolod">
+        <div class="card-details">
+          <h2>Bacolod</h2>
+          <p>Visayas</p>
+          <ul>
+            <li><i class="fas fa-plane"></i> Silay Airport</li>
+            <li><i class="fas fa-utensils"></i> Food tours</li>
+            <li><i class="fas fa-car"></i> City transport</li>
+          </ul>
+        </div>
+      </div>
+
     </div>
   </div>
+
+  <!-- Modal -->
+  <div id="locationModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <p class="modal-region" id="modalRegion"></p>
+      <div class="modal-description" id="modalDescription"></div>
+      <h3>Popular Activities:</h3>
+      <ul class="activities-list" id="modalActivities"></ul>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const modal = document.getElementById('locationModal');
+      const closeBtn = document.getElementsByClassName('close')[0];
+      const locationCards = document.querySelectorAll('.location-card');
+
+      // Add click event listeners to all location cards
+      locationCards.forEach(card => {
+        card.addEventListener('click', function(e) {
+          e.preventDefault();
+          const locationName = this.querySelector('h2').textContent;
+          const locationInfo = locationData[locationName];
+          const image = this.querySelector('img').src;
+          const region = this.querySelector('p').textContent;
+          
+          // Update modal content
+          document.getElementById('modalImage').src = image;
+          document.getElementById('modalTitle').textContent = locationName;
+          document.getElementById('modalRegion').textContent = region;
+          document.getElementById('modalDescription').textContent = locationInfo.description;
+          
+          // Update activities list
+          const activitiesList = document.getElementById('modalActivities');
+          activitiesList.innerHTML = '';
+          locationInfo.activities.forEach(activity => {
+            const li = document.createElement('li');
+            li.textContent = activity;
+            activitiesList.appendChild(li);
+          });
+          
+          // Show modal with fade-in effect
+          modal.style.display = 'block';
+          setTimeout(() => {
+            modal.style.opacity = '1';
+          }, 10);
+        });
+
+        // Add keyboard navigation
+        card.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            this.click();
+          }
+        });
+
+        // Make cards focusable
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('role', 'button');
+        card.setAttribute('aria-label', `View details about ${card.querySelector('h2').textContent}`);
+      });
+
+      // Close modal functionality
+      closeBtn.onclick = function() {
+        modal.style.opacity = '0';
+        setTimeout(() => {
+          modal.style.display = 'none';
+        }, 300);
+      }
+
+      // Close modal when clicking outside
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.opacity = '0';
+          setTimeout(() => {
+            modal.style.display = 'none';
+          }, 300);
+        }
+      }
+
+      // Close modal with Escape key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.style.display === 'block') {
+          closeBtn.click();
+        }
+      });
+    });
+
+    const locationData = {
+      'Manila': {
+        description: 'The capital city of the Philippines, Manila is a vibrant metropolis that blends historical landmarks with modern attractions.',
+        activities: [
+          'Visit Intramuros (The Walled City)',
+          'Explore Rizal Park',
+          'Tour the National Museum',
+          'Shop at Mall of Asia',
+          'Experience the nightlife in Makati'
+        ]
+      },
+      'Bicol': {
+        description: 'Home to the majestic Mayon Volcano and known for its spicy cuisine and eco-tourism destinations.',
+        activities: [
+          'View Mayon Volcano',
+          'Try Bicol Express',
+          'Visit CamSur Watersports Complex',
+          'Swim with whale sharks in Donsol',
+          'Island hopping in Caramoan'
+        ]
+      },
+      'Leyte': {
+        description: 'A historic province known for its role in WWII, beautiful beaches, and natural attractions.',
+        activities: [
+          'Visit MacArthur Landing Memorial',
+          'Explore Kalanggaman Island',
+          'Tour San Juanico Bridge',
+          'Visit Lake Danao',
+          'Historical WWII sites tour'
+        ]
+      },
+      'Palawan': {
+        description: 'Known as the Philippines\' Last Frontier, home to incredible beaches, lagoons, and wildlife.',
+        activities: [
+          'Island hopping in El Nido',
+          'Visit Underground River',
+          'Dive in Tubbataha Reef',
+          'Explore Coron\'s lakes',
+          'Wildlife watching in Calauit'
+        ]
+      },
+      'Davao': {
+        description: 'The largest city in Mindanao, known for durian, Mount Apo, and Philippine eagles.',
+        activities: [
+          'Visit Philippine Eagle Center',
+          'Climb Mount Apo',
+          'Try durian and pomelo',
+          'Island hop to Samal',
+          'Visit Eden Nature Park'
+        ]
+      },
+      'Masbate': {
+        description: 'Known as the Rodeo Capital of the Philippines, featuring beautiful beaches and cattle ranches.',
+        activities: [
+          'Attend Rodeo Festival',
+          'Visit Buntod Reef',
+          'Island hopping',
+          'Watch cattle herding',
+          'Explore marine sanctuaries'
+        ]
+      },
+      'Bohol': {
+        description: 'Known for its unique Chocolate Hills and diverse wildlife, Bohol is a natural wonder of the Philippines.',
+        activities: [
+          'See the Chocolate Hills',
+          'Visit the Tarsier Sanctuary',
+          'Cruise the Loboc River',
+          'Relax at Alona Beach',
+          'Visit old churches'
+        ]
+      },
+      'Siargao': {
+        description: 'The surfing capital of the Philippines, Siargao is a tear-drop shaped island known for its world-class waves.',
+        activities: [
+          'Surf at Cloud 9',
+          'Island hopping to Naked, Daku, and Guyam islands',
+          'Visit the Magpupungko Rock Pools',
+          'Explore Sugba Lagoon',
+          'Try local seafood'
+        ]
+      },
+      'Cebu': {
+        description: 'A major tourist destination famous for its beaches, historical sites, and urban attractions.',
+        activities: [
+          'Swim with whale sharks in Oslob',
+          'Visit Magellan\'s Cross',
+          'Canyoneering in Kawasan Falls',
+          'Island hopping in Mactan',
+          'Try Cebu lechon'
+        ]
+      },
+      'Vigan': {
+        description: 'A UNESCO World Heritage site known for its preserved Spanish colonial architecture.',
+        activities: [
+          'Walk down Calle Crisologo',
+          'Ride a kalesa (horse-drawn carriage)',
+          'Visit Bantay Church and Bell Tower',
+          'Try Vigan longganisa',
+          'Shop for local handicrafts'
+        ]
+      },
+      'Boracay': {
+        description: 'Famous for its powdery white sand beaches and crystal-clear waters.',
+        activities: [
+          'Relax at White Beach',
+          'Try water sports',
+          'Watch the sunset at Station 1',
+          'Party at night',
+          'Island hopping tours'
+        ]
+      },
+      'Batanes': {
+        description: 'The northernmost province of the Philippines, known for its stunning landscapes and stone houses.',
+        activities: [
+          'Visit the Basco Lighthouse',
+          'Explore Sabtang Island',
+          'Photo walk in Chavayan Village',
+          'Visit Marlboro Country',
+          'Try local Ivatan cuisine'
+        ]
+      },
+      'Sagada': {
+        description: 'A mountain town famous for its hanging coffins, caves, and cool climate.',
+        activities: [
+          'Visit the Hanging Coffins',
+          'Explore Sumaguing Cave',
+          'Watch sunrise at Kiltepan Peak',
+          'Trek to Bomod-ok Falls',
+          'Try local coffee'
+        ]
+      },
+      'Coron': {
+        description: 'Known for its world-class diving spots, limestone cliffs, and pristine lagoons.',
+        activities: [
+          'Dive at Japanese shipwrecks',
+          'Swim in Kayangan Lake',
+          'Visit Twin Lagoon',
+          'Island hopping tours',
+          'Relax at Beach 91'
+        ]
+      },
+      'Siquijor': {
+        description: 'The mystical island known for its beaches, waterfalls, and healing traditions.',
+        activities: [
+          'Visit Cambugahay Falls',
+          'Relax at Paliton Beach',
+          'Tour the old churches',
+          'Visit a traditional healer',
+          'Explore Century Old Balete Tree'
+        ]
+      },
+      'Camiguin': {
+        description: 'The "Island Born of Fire" features volcanoes, hot springs, and white sand beaches.',
+        activities: [
+          'Visit White Island',
+          'Swim at Ardent Hot Springs',
+          'Hike Mount Hibok-Hibok',
+          'Visit the Sunken Cemetery',
+          'Try local lanzones fruit'
+        ]
+      },
+      'Banaue': {
+        description: 'Home to the UNESCO World Heritage Rice Terraces, carved into the mountains over 2000 years ago.',
+        activities: [
+          'View the Rice Terraces',
+          'Trek to Batad Village',
+          'Visit local markets',
+          'Learn about Ifugao culture',
+          'Photography tours'
+        ]
+      },
+      'Zambales': {
+        description: 'Known for its beautiful beaches, coves, and mountains perfect for outdoor adventures.',
+        activities: [
+          'Camp at Anawangin Cove',
+          'Hike Mount Pinatubo',
+          'Island hopping',
+          'Surfing at Crystal Beach',
+          'Visit Capones Island'
+        ]
+      },
+      'Iloilo': {
+        description: 'The "City of Love" famous for its heritage sites, festivals, and culinary delights.',
+        activities: [
+          'Visit Miagao Church',
+          'Try La Paz Batchoy',
+          'Walk Calle Real',
+          'Visit Garin Farm',
+          'Experience Dinagyang Festival'
+        ]
+      },
+      'Batangas': {
+        description: 'A province near Manila known for its beaches, dive spots, and heritage towns.',
+        activities: [
+          'Dive in Anilao',
+          'Visit Taal Volcano',
+          'Beach hop in Nasugbu',
+          'Visit heritage houses',
+          'Try Batangas coffee'
+        ]
+      },
+      'Dumaguete': {
+        description: 'Known as the "City of Gentle People," famous for its boulevard and universities.',
+        activities: [
+          'Walk along Rizal Boulevard',
+          'Visit Apo Island',
+          'Try silvanas',
+          'Watch dolphins at Manjuyod',
+          'Visit Silliman University'
+        ]
+      },
+      'Cagayan de Oro': {
+        description: 'The "City of Golden Friendship" known for adventure sports and urban attractions.',
+        activities: [
+          'White water rafting',
+          'Visit Divine Mercy Shrine',
+          'Try local food at Cogon Market',
+          'Day trip to Dahilayan',
+          'Visit Gardens of Malasag'
+        ]
+      },
+      'Tagaytay': {
+        description: 'A popular weekend destination known for its cool climate and view of Taal Volcano.',
+        activities: [
+          'View Taal Volcano',
+          'Visit Sky Ranch',
+          'Try bulalo',
+          'Visit Picnic Grove',
+          'Shop at Mahogany Market'
+        ]
+      },
+      'Baguio': {
+        description: 'The Summer Capital of the Philippines known for its cool climate and pine trees.',
+        activities: [
+          'Visit Burnham Park',
+          'Shop at Session Road',
+          'Tour Mines View Park',
+          'Visit BenCab Museum',
+          'Try strawberry picking'
+        ]
+      },
+      'Puerto Princesa': {
+        description: 'The city known for the Underground River and eco-tourism initiatives.',
+        activities: [
+          'Tour Underground River',
+          'Visit Honda Bay',
+          'Try local seafood',
+          'Firefly watching',
+          'Visit Crocodile Farm'
+        ]
+      },
+      'Bacolod': {
+        description: 'The "City of Smiles" known for its food, festivals, and heritage sites.',
+        activities: [
+          'Visit The Ruins',
+          'Try chicken inasal',
+          'Tour ancestral houses',
+          'Experience MassKara Festival',
+          'Visit Campuestohan'
+        ]
+      }
+    };
+  </script>
 </body>
 </html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Travel Package - Wayfarers</title>
+    <link rel="icon" href="logo.png" type="image/png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .header {
+            background: white;
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            text-decoration: none;
+            color: #333;
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar {
+            list-style-type: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .navbar a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 100px auto 50px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .image-preview {
+            width: 200px;
+            height: 200px;
+            border: 2px dashed #ddd;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            display: none;
+        }
+
+        .submit-btn {
+            background: #2A9D8F;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            background: #248277;
+        }
+
+        .price-inputs {
+            display: flex;
+            gap: 20px;
+        }
+
+        .price-inputs .form-group {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="#" class="logo">
+            <img src="logo.png" alt="Wayfarers Logo" width="100">
+            Wayfarers
+        </a>
+        <ul class="navbar">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="package.html">Package</a></li>
+            <li><a href="locations.html">Destinations</a></li>
+            <li><a href="watch.html">Watch</a></li>
+        </ul>
+    </header>
+
+    <div class="container">
+        <h1>Submit Your Travel Package</h1>
+        <form id="packageForm" onsubmit="submitPackage(event)">
+            <!-- Contact Information -->
+            <h2>Contact Information</h2>
+            <div class="form-group">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+
+            <!-- Package Details -->
+            <h2>Package Details</h2>
+            <div class="form-group">
+                <label for="packageType">Package Type *</label>
+                <select id="packageType" name="packageType" required>
+                    <option value="">Select Package Type</option>
+                    <option value="flight">Flight</option>
+                    <option value="hotel">Hotel</option>
+                    <option value="tour">Tour Package</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="title">Package Title *</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="location">Location *</label>
+                <input type="text" id="location" name="location" required>
+            </div>
+            <div class="price-inputs">
+                <div class="form-group">
+                    <label for="price">Price (USD) *</label>
+                    <input type="number" id="price" name="price" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="duration">Duration (Days)</label>
+                    <input type="number" id="duration" name="duration" min="1">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="description">Package Description *</label>
+                <textarea id="description" name="description" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="inclusions">What's Included *</label>
+                <textarea id="inclusions" name="inclusions" placeholder="List the items included in the package..." required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="image">Package Image *</label>
+                <input type="file" id="image" name="image" accept="image/*" required onchange="previewImage(event)">
+                <div class="image-preview">
+                    <img id="imagePreview" src="#" alt="Image preview">
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit Package</button>
+        </form>
+    </div>
+
+    <script>
+        function previewImage(event) {
+            const preview = document.getElementById('imagePreview');
+            const file = event.target.files[0];
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.style.display = 'block';
+                    preview.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function submitPackage(event) {
+            event.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(event.target);
+            const imageFile = document.getElementById('image').files[0];
+            
+            if (!imageFile) {
+                alert('Please select an image');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const packageData = {
+                    name: formData.get('name'),
+                    email: formData.get('email'),
+                    phone: formData.get('phone'),
+                    packageType: formData.get('packageType'),
+                    title: formData.get('title'),
+                    location: formData.get('location'),
+                    price: formData.get('price'),
+                    duration: formData.get('duration'),
+                    description: formData.get('description'),
+                    inclusions: formData.get('inclusions'),
+                    image: e.target.result // Store base64 image data
+                };
+
+                // Store in localStorage
+                let packages = JSON.parse(localStorage.getItem('travelPackages')) || [];
+                packages.push(packageData);
+                localStorage.setItem('travelPackages', JSON.stringify(packages));
+
+                // Show success message
+                alert('Package submitted successfully!');
+                
+                // Redirect to packages page
+                window.location.href = 'package.html';
+            };
+            
+            reader.readAsDataURL(imageFile);
+        }
+    </script>
+</body>
+</html>

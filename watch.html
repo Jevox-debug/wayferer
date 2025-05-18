@@ -4,10 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Wayfarer</title>
-   <link rel="icon" href="logo.png" type="image/png">
+  <link rel="icon" href="logo.png" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   
-  
-
   <style>
     * {
       margin: 0;
@@ -31,22 +30,20 @@
     }
 
     .video-container {
-       position: relative;
-  width: 100%;
-  height: 100vh;
-  scroll-snap-align: start;
-  overflow: hidden;
-
-  display: flex;
-  justify-content: center; 
-  align-items: center;     
-   
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      scroll-snap-align: start;
+      overflow: hidden;
+      display: flex;
+      justify-content: center; 
+      align-items: center;     
     }
 
     video {
-     height: 100%;
-  aspect-ratio: 9 / 16; 
-  object-fit: cover;
+      height: 100%;
+      aspect-ratio: 9 / 16; 
+      object-fit: cover;
     }
 
     .overlay {
@@ -54,301 +51,664 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      padding: 16px;
+      padding: 20px;
       color: white;
-      background: linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0));
+      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+      z-index: 2;
     }
 
     .user-info {
-      font-weight: bold;
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .user-info img {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      margin-right: 12px;
+      border: 2px solid #fff;
+    }
+
+    .user-info .username {
+      font-weight: 600;
+      font-size: 16px;
       margin-bottom: 4px;
     }
 
     .caption {
-      font-size: 14px;
-      margin-bottom: 4px;
+      font-size: 15px;
+      margin-bottom: 12px;
+      line-height: 1.4;
     }
 
     .sound {
-      font-size: 12px;
-      opacity: 0.8;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .sound i {
+      margin-right: 8px;
+    }
+
+    .hashtags {
+      font-size: 14px;
+      color: #fff;
+      margin-top: 8px;
     }
 
     .actions {
       position: absolute;
-      right: 10px;
-      bottom: 120px;
+      right: 12px;
+      bottom: 150px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 16px;
+      gap: 20px;
+      z-index: 3;
     }
 
-    .actions img {
-      width: 30px;
-      height: 30px;
-    }
-
-    .actions span {
+    .action-button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       color: white;
+      cursor: pointer;
+    }
+
+    .action-button i {
+      font-size: 28px;
+      margin-bottom: 4px;
+    }
+
+    .action-button span {
       font-size: 12px;
-      text-align: center;
+      font-weight: 500;
+    }
+
+    .sound-control {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 8px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 10;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .sound-control:hover {
+      background: rgba(0, 0, 0, 0.7);
+      transform: scale(1.1);
+    }
+
+    .follow-button {
+      background: #FE2C55;
+      color: white;
+      border: none;
+      padding: 6px 16px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      margin-left: 12px;
+    }
+
+    .music-info {
+      display: flex;
+      align-items: center;
+      margin-top: 8px;
+    }
+
+    .music-info i {
+      margin-right: 8px;
+      font-size: 16px;
+    }
+
+    .music-note {
+      animation: musicNote 1s infinite linear;
+    }
+
+    @keyframes musicNote {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .video-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: #fff;
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+
+    .back-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .back-button:hover {
+      background: rgba(0, 0, 0, 0.7);
+      transform: scale(1.1);
+    }
+
+    .package-link {
+      text-decoration: none;
+      color: white;
     }
   </style>
 </head>
 <body>
   <div class="app">
-
+    <div class="back-button" onclick="window.location.href='index.html'">
+      <i class="fas fa-home"></i>
+    </div>
+    <!-- Original videos with enhanced UI -->
     <div class="video-container">
-      <video autoplay loop muted playsinline>
+      <div class="sound-control">🔊</div>
+      <video loop playsinline>
         <source src="Download.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
       </video>
       <div class="overlay">
-        <div class="user-info">@yourusername</div>
-        <div class="caption">Palawan✨</div>
-        <div class="sound">🎵 Original sound - Artist</div>
+        <div class="user-info">
+          <img src="https://randomuser.me/api/portraits/women/1.jpg" alt="User">
+          <div>
+            <div class="username">@wanderlust_ph</div>
+            <button class="follow-button">Follow</button>
+          </div>
+        </div>
+        <div class="caption">Exploring the hidden gems of Palawan 🌴✨</div>
+        <div class="music-info">
+          <i class="fas fa-music music-note"></i>
+          <span>Original Sound - Travel Vibes</span>
+        </div>
+        <div class="hashtags">#Philippines #Palawan #TravelPH #Paradise</div>
       </div>
       <div class="actions">
-        <div>
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/like.png" alt="Like"/>
-          <span>123</span>
+        <div class="action-button">
+          <i class="fas fa-heart"></i>
+          <span>87.5K</span>
         </div>
-        <div>
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/comments.png" alt="Comment"/>
-          <span>45</span>
+        <div class="action-button">
+          <i class="fas fa-comment-dots"></i>
+          <span>1,234</span>
         </div>
-        <div>
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/share.png" alt="Share"/>
-          <span>Share</span>
+        <div class="action-button">
+          <i class="fas fa-bookmark"></i>
+          <span>5,678</span>
+        </div>
+        <div class="action-button">
+          <a href="package.html" class="package-link">
+            <i class="fas fa-box"></i>
+            <span>Book Now</span>
+          </a>
         </div>
       </div>
-
-
-      
+      <div class="video-progress">
+        <div class="progress-bar"></div>
+      </div>
     </div>
 
-     <div class="video-container">
-      <video autoplay loop muted playsinline>
-        <source src="Download (2).mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-      <div class="overlay">
-        <div class="user-info">@yourusername</div>
-        <div class="caption">Philippines ✨</div>
-        <div class="sound">🎵 Original sound - Artist</div>
-      </div>
-      <div class="actions">
-        <div>
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/like.png" alt="Like"/>
-          <span>123</span>
-        </div>
-        <div>
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/comments.png" alt="Comment"/>
-          <span>45</span>
-        </div>
-        <div>
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/share.png" alt="Share"/>
-          <span>Share</span>
-        </div>
-      </div>
-
-
-      
-    </div>
-
-     <div class="video-container">
-      <video autoplay loop muted playsinline>
+    <div class="video-container">
+      <div class="sound-control">🔊</div>
+      <video loop playsinline>
         <source src="Download (1).mp4" type="video/mp4" />
-        Your browser does not support the video tag.
       </video>
       <div class="overlay">
-        <div class="user-info">@yourusername</div>
-        <div class="caption">pinasss ✨</div>
-        <div class="sound">🎵 Original sound - Artist</div>
+        <div class="user-info">
+          <img src="https://randomuser.me/api/portraits/women/2.jpg" alt="User">
+          <div>
+            <div class="username">@pinoy_adventures</div>
+            <button class="follow-button">Follow</button>
+          </div>
+        </div>
+        <div class="caption">Discovering hidden beaches and secret coves 🏖️</div>
+        <div class="music-info">
+          <i class="fas fa-music music-note"></i>
+          <span>Summer Vibes - Beach Mix</span>
+        </div>
+        <div class="hashtags">#BeachLife #PhilippineBeaches #TravelGoals</div>
       </div>
       <div class="actions">
-        <div>
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/like.png" alt="Like"/>
-          <span>123</span>
+        <div class="action-button">
+          <i class="fas fa-heart"></i>
+          <span>92.3K</span>
         </div>
-        <div>
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/comments.png" alt="Comment"/>
-          <span>45</span>
+        <div class="action-button">
+          <i class="fas fa-comment-dots"></i>
+          <span>2,156</span>
         </div>
-        <div>
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/share.png" alt="Share"/>
-          <span>Share</span>
+        <div class="action-button">
+          <i class="fas fa-bookmark"></i>
+          <span>7,890</span>
+        </div>
+        <div class="action-button">
+          <a href="package.html" class="package-link">
+            <i class="fas fa-box"></i>
+            <span>Book Now</span>
+          </a>
         </div>
       </div>
-      
-
-
-      
+      <div class="video-progress">
+        <div class="progress-bar"></div>
+      </div>
     </div>
 
     <div class="video-container">
-      <video autoplay loop muted playsinline>
+      <div class="sound-control">🔊</div>
+      <video loop playsinline>
+        <source src="Download (2).mp4" type="video/mp4" />
+      </video>
+      <div class="overlay">
+        <div class="user-info">
+          <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User">
+          <div>
+            <div class="username">@island_hopper</div>
+            <button class="follow-button">Follow</button>
+          </div>
+        </div>
+        <div class="caption">Island hopping in paradise! 🏝️ Can't believe these views!</div>
+        <div class="music-info">
+          <i class="fas fa-music music-note"></i>
+          <span>Tropical Beats - Island Mix</span>
+        </div>
+        <div class="hashtags">#IslandLife #PhilippineIslands #Paradise</div>
+      </div>
+      <div class="actions">
+        <div class="action-button">
+          <i class="fas fa-heart"></i>
+          <span>156K</span>
+        </div>
+        <div class="action-button">
+          <i class="fas fa-comment-dots"></i>
+          <span>3,421</span>
+        </div>
+        <div class="action-button">
+          <i class="fas fa-bookmark"></i>
+          <span>12.5K</span>
+        </div>
+        <div class="action-button">
+          <a href="package.html" class="package-link">
+            <i class="fas fa-box"></i>
+            <span>Book Now</span>
+          </a>
+        </div>
+      </div>
+      <div class="video-progress">
+        <div class="progress-bar"></div>
+      </div>
+    </div>
+
+    <div class="video-container">
+      <div class="sound-control">🔊</div>
+      <video loop playsinline>
         <source src="Download (3).mp4" type="video/mp4" />
-        Your browser does not support the video tag.
       </video>
       <div class="overlay">
-        <div class="user-info">@yourusername</div>
-        <div class="caption">Philippines ✨</div>
-        <div class="sound">🎵 Original sound - Artist</div>
+        <div class="user-info">
+          <img src="https://randomuser.me/api/portraits/women/3.jpg" alt="User">
+          <div>
+            <div class="username">@travel_with_me</div>
+            <button class="follow-button">Follow</button>
+          </div>
+        </div>
+        <div class="caption">Sunset chasing in the Philippines 🌅 Magic hour never disappoints!</div>
+        <div class="music-info">
+          <i class="fas fa-music music-note"></i>
+          <span>Sunset Melodies - Chill Mix</span>
+        </div>
+        <div class="hashtags">#SunsetLovers #PhilippineSunsets #TravelPH</div>
       </div>
       <div class="actions">
-        <div>
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/like.png" alt="Like"/>
-          <span>123</span>
+        <div class="action-button">
+          <i class="fas fa-heart"></i>
+          <span>201K</span>
         </div>
-        <div>
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/comments.png" alt="Comment"/>
-          <span>45</span>
+        <div class="action-button">
+          <i class="fas fa-comment-dots"></i>
+          <span>4,567</span>
         </div>
-        <div>
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/share.png" alt="Share"/>
-          <span>Share</span>
+        <div class="action-button">
+          <i class="fas fa-bookmark"></i>
+          <span>15.2K</span>
+        </div>
+        <div class="action-button">
+          <a href="package.html" class="package-link">
+            <i class="fas fa-box"></i>
+            <span>Book Now</span>
+          </a>
         </div>
       </div>
-
-
-      
+      <div class="video-progress">
+        <div class="progress-bar"></div>
+      </div>
     </div>
 
-   <div class="video-container">
-      <video autoplay loop muted playsinline>
+    <div class="video-container">
+      <div class="sound-control">🔊</div>
+      <video loop playsinline>
+        <source src="Download (4).mp4" type="video/mp4" />
+      </video>
+      <div class="overlay">
+        <div class="user-info">
+          <img src="https://randomuser.me/api/portraits/men/2.jpg" alt="User">
+          <div>
+            <div class="username">@adventure_seeker</div>
+            <button class="follow-button">Follow</button>
+          </div>
+        </div>
+        <div class="caption">Mountain adventures in the Philippines 🏔️ The view is worth every step!</div>
+        <div class="music-info">
+          <i class="fas fa-music music-note"></i>
+          <span>Adventure Beats - Nature Mix</span>
+        </div>
+        <div class="hashtags">#MountainLife #PinoyMountaineer #AdventurePH</div>
+      </div>
+      <div class="actions">
+        <div class="action-button">
+          <i class="fas fa-heart"></i>
+          <span>178K</span>
+        </div>
+        <div class="action-button">
+          <i class="fas fa-comment-dots"></i>
+          <span>3,890</span>
+        </div>
+        <div class="action-button">
+          <i class="fas fa-bookmark"></i>
+          <span>13.7K</span>
+        </div>
+        <div class="action-button">
+          <a href="package.html" class="package-link">
+            <i class="fas fa-box"></i>
+            <span>Book Now</span>
+          </a>
+        </div>
+      </div>
+      <div class="video-progress">
+        <div class="progress-bar"></div>
+      </div>
+    </div>
+
+    <div class="video-container">
+      <div class="sound-control">🔊</div>
+      <video loop playsinline>
         <source src="Download (5).mp4" type="video/mp4" />
-        Your browser does not support the video tag.
       </video>
       <div class="overlay">
-        <div class="user-info">@itsjanandann</div>
-        <div class="caption">Who’s adding this to their list? 🇵🇭 #vigancity #ilocossur <br> #sevenwondersoftheworld #philippinestravel</div>
-        <div class="sound">🎵 Original sound - Artist</div>
+        <div class="user-info">
+          <img src="https://randomuser.me/api/portraits/women/4.jpg" alt="User">
+          <div>
+            <div class="username">@itsjanandann</div>
+            <button class="follow-button">Follow</button>
+          </div>
+        </div>
+        <div class="caption">Who's adding this to their list? 🇵🇭 Vigan City's charm is unmatched!</div>
+        <div class="music-info">
+          <i class="fas fa-music music-note"></i>
+          <span>Heritage Vibes - Traditional Mix</span>
+        </div>
+        <div class="hashtags">#ViganCity #IlocosSur #HeritageCity #PhilippinesTravel</div>
       </div>
       <div class="actions">
-        <div>
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/like.png" alt="Like"/>
-          <span>123</span>
+        <div class="action-button">
+          <i class="fas fa-heart"></i>
+          <span>145K</span>
         </div>
-        <div>
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/comments.png" alt="Comment"/>
-          <span>45</span>
+        <div class="action-button">
+          <i class="fas fa-comment-dots"></i>
+          <span>3,234</span>
         </div>
-        <div>
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/share.png" alt="Share"/>
-          <span>Share</span>
+        <div class="action-button">
+          <i class="fas fa-bookmark"></i>
+          <span>11.2K</span>
+        </div>
+        <div class="action-button">
+          <a href="package.html" class="package-link">
+            <i class="fas fa-box"></i>
+            <span>Book Now</span>
+          </a>
         </div>
       </div>
-
-
-      
+      <div class="video-progress">
+        <div class="progress-bar"></div>
+      </div>
     </div>
-<!-- Add more .video-container blocks for additional videos -->
+
     <div class="video-container">
-      <video autoplay loop muted playsinline>
+      <div class="sound-control">🔊</div>
+      <video loop playsinline>
         <source src="Download (6).mp4" type="video/mp4" />
-        Your browser does not support the video tag.
       </video>
       <div class="overlay">
-        <div class="user-info">@visualsofbgc </div>
-        <div class="caption">Who’s adding this to their list? 🇵🇭 #vigancity #ilocossur <br> #sevenwondersoftheworld #philippinestravel</div>
-        <div class="sound">🎵 Original sound - Artist</div>
+        <div class="user-info">
+          <img src="https://randomuser.me/api/portraits/men/3.jpg" alt="User">
+          <div>
+            <div class="username">@visualsofbgc</div>
+            <button class="follow-button">Follow</button>
+          </div>
+        </div>
+        <div class="caption">City lights and urban vibes in BGC 🌆 Modern Philippines at its finest!</div>
+        <div class="music-info">
+          <i class="fas fa-music music-note"></i>
+          <span>Urban Beats - City Mix</span>
+        </div>
+        <div class="hashtags">#BGC #ModernManila #CityLife #UrbanPH</div>
       </div>
       <div class="actions">
-        <div>
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/like.png" alt="Like"/>
-          <span>123</span>
+        <div class="action-button">
+          <i class="fas fa-heart"></i>
+          <span>167K</span>
         </div>
-        <div>
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/comments.png" alt="Comment"/>
-          <span>45</span>
+        <div class="action-button">
+          <i class="fas fa-comment-dots"></i>
+          <span>3,678</span>
         </div>
-        <div>
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/share.png" alt="Share"/>
-          <span>Share</span>
+        <div class="action-button">
+          <i class="fas fa-bookmark"></i>
+          <span>14.3K</span>
+        </div>
+        <div class="action-button">
+          <a href="package.html" class="package-link">
+            <i class="fas fa-box"></i>
+            <span>Book Now</span>
+          </a>
         </div>
       </div>
-
-
-      
+      <div class="video-progress">
+        <div class="progress-bar"></div>
+      </div>
     </div>
 
     <div class="video-container">
-      <video autoplay loop muted playsinline>
+      <div class="sound-control">🔊</div>
+      <video loop playsinline>
         <source src="Download (7).mp4" type="video/mp4" />
-        Your browser does not support the video tag.
       </video>
       <div class="overlay">
-        <div class="user-info">@divinavillasera </div>
-        <div class="caption">Who’s adding this to their list? 🇵🇭 #vigancity #ilocossur <br> #sevenwondersoftheworld #philippinestravel</div>
-        <div class="sound">🎵 Original sound - Artist</div>
+        <div class="user-info">
+          <img src="https://randomuser.me/api/portraits/women/5.jpg" alt="User">
+          <div>
+            <div class="username">@divinavillasera</div>
+            <button class="follow-button">Follow</button>
+          </div>
+        </div>
+        <div class="caption">Cultural heritage meets natural beauty 🌺 This is why I love the Philippines!</div>
+        <div class="music-info">
+          <i class="fas fa-music music-note"></i>
+          <span>Filipino Pride - Cultural Mix</span>
+        </div>
+        <div class="hashtags">#PinoyPride #PhilippineCulture #TravelPH #ExploreMore</div>
       </div>
       <div class="actions">
-        <div>
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/like.png" alt="Like"/>
-          <span>123</span>
+        <div class="action-button">
+          <i class="fas fa-heart"></i>
+          <span>189K</span>
         </div>
-        <div>
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/comments.png" alt="Comment"/>
-          <span>45</span>
+        <div class="action-button">
+          <i class="fas fa-comment-dots"></i>
+          <span>4,123</span>
         </div>
-        <div>
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/share.png" alt="Share"/>
-          <span>Share</span>
+        <div class="action-button">
+          <i class="fas fa-bookmark"></i>
+          <span>16.8K</span>
+        </div>
+        <div class="action-button">
+          <a href="package.html" class="package-link">
+            <i class="fas fa-box"></i>
+            <span>Book Now</span>
+          </a>
         </div>
       </div>
-
-
-      
-    </div>
-
-  </div>
-
-  <div class="video-container">
-    <video id="myVideo" loop playsinline>
-      <source src="Download (2).mp4" type="video/mp4" />
-      Your browser does not support the video tag.
-    </video>
-
-    <div class="tap-to-unmute" id="unmuteMessage">🔊 Tap to unmute</div>
-
-    <div class="overlay">
-      <div class="user-info">@divinavillasera</div>
-      <div class="caption">
-        Who’s adding this to their list? 🇵🇭 #vigancity #ilocossur <br>
-        #sevenwondersoftheworld #philippinestravel
-      </div>
-      <div class="sound">🎵 Original sound - Artist</div>
-    </div>
-
-    <div class="actions">
-      <div>
-        <img src="https://img.icons8.com/ios-filled/50/ffffff/like.png" alt="Like"/>
-        <span>123</span>
-      </div>
-      <div>
-        <img src="https://img.icons8.com/ios-filled/50/ffffff/comments.png" alt="Comment"/>
-        <span>45</span>
-      </div>
-      <div>
-        <img src="https://img.icons8.com/ios-filled/50/ffffff/share.png" alt="Share"/>
-        <span>Share</span>
+      <div class="video-progress">
+        <div class="progress-bar"></div>
       </div>
     </div>
   </div>
 
   <script>
-    const video = document.getElementById('myVideo');
-    const unmuteMessage = document.getElementById('unmuteMessage');
+    document.addEventListener('DOMContentLoaded', function() {
+      const videoContainers = document.querySelectorAll('.video-container');
+      let currentPlayingVideo = null;
+      let isSoundEnabled = false;
 
-    // Wait for user tap to play with sound
-    document.body.addEventListener('click', () => {
-      video.muted = false;
-      video.play();
-      unmuteMessage.style.display = 'none';
-    }, { once: true });
+      // Progress bar functionality
+      function updateProgressBar(video, progressBar) {
+        const progress = (video.currentTime / video.duration) * 100;
+        progressBar.style.width = `${progress}%`;
+      }
+
+      // Initialize Intersection Observer
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const container = entry.target;
+          const video = container.querySelector('video');
+          const soundControl = container.querySelector('.sound-control');
+          const progressBar = container.querySelector('.progress-bar');
+          
+          if (entry.isIntersecting) {
+            video.play();
+            if (currentPlayingVideo && currentPlayingVideo !== video) {
+              currentPlayingVideo.muted = true;
+              const previousSoundControl = currentPlayingVideo.parentElement.querySelector('.sound-control');
+              previousSoundControl.textContent = '🔊';
+            }
+            if (isSoundEnabled) {
+              video.muted = false;
+              soundControl.textContent = '🔈';
+            }
+            currentPlayingVideo = video;
+
+            // Start updating progress bar
+            video.addEventListener('timeupdate', () => updateProgressBar(video, progressBar));
+          } else {
+            video.pause();
+            video.muted = true;
+            soundControl.textContent = '🔊';
+            video.removeEventListener('timeupdate', () => updateProgressBar(video, progressBar));
+          }
+        });
+      }, {
+        threshold: 0.6
+      });
+
+      // Observe all video containers
+      videoContainers.forEach(container => {
+        observer.observe(container);
+        const video = container.querySelector('video');
+        const soundControl = container.querySelector('.sound-control');
+        const likeButton = container.querySelector('.fa-heart').parentElement;
+        const bookmarkButton = container.querySelector('.fa-bookmark').parentElement;
+
+        // Initialize all videos as muted
+        video.muted = true;
+
+        // Add click handler for sound control
+        soundControl.addEventListener('click', () => {
+          if (video.muted) {
+            video.muted = false;
+            soundControl.textContent = '🔈';
+            isSoundEnabled = true;
+
+            videoContainers.forEach(otherContainer => {
+              if (otherContainer !== container) {
+                const otherVideo = otherContainer.querySelector('video');
+                const otherSoundControl = otherContainer.querySelector('.sound-control');
+                otherVideo.muted = true;
+                otherSoundControl.textContent = '🔊';
+              }
+            });
+          } else {
+            video.muted = true;
+            soundControl.textContent = '🔊';
+            isSoundEnabled = false;
+          }
+        });
+
+        // Add interaction handlers
+        likeButton.addEventListener('click', function() {
+          const icon = this.querySelector('i');
+          const count = this.querySelector('span');
+          if (!icon.classList.contains('liked')) {
+            icon.style.color = '#FE2C55';
+            icon.classList.add('liked');
+            count.textContent = (parseInt(count.textContent.replace(/[^0-9]/g, '')) + 1).toLocaleString() + 'K';
+          } else {
+            icon.style.color = 'white';
+            icon.classList.remove('liked');
+            count.textContent = (parseInt(count.textContent.replace(/[^0-9]/g, '')) - 1).toLocaleString() + 'K';
+          }
+        });
+
+        bookmarkButton.addEventListener('click', function() {
+          const icon = this.querySelector('i');
+          if (!icon.classList.contains('saved')) {
+            icon.style.color = '#FFEB3B';
+            icon.classList.add('saved');
+          } else {
+            icon.style.color = 'white';
+            icon.classList.remove('saved');
+          }
+        });
+      });
+
+      // Start playing the first video
+      const firstVideo = videoContainers[0].querySelector('video');
+      firstVideo.play();
+    });
   </script>
-
 </body>
 </html>
