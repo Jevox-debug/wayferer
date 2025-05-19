@@ -480,6 +480,30 @@
         .feature-tag i {
             color: #2A9D8F;
         }
+
+        /* Add after .map-container styles */
+        .flight-legend {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 12px 18px;
+            z-index: 1002;
+            font-size: 0.95rem;
+            color: #264653;
+            border: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .plane-icon {
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+            vertical-align: middle;
+        }
     </style>
 </head>
 <body>
@@ -940,7 +964,10 @@
             </div>
 
             <div class="map-container">
-                <div id="map" style="width: 100%; height: 100%;"></div>
+                <div id="map" style="width: 100%; height: 100%; position: relative;"></div>
+                <div class="flight-legend">
+                    <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" class="plane-icon" alt="Plane"> Live Flight
+                </div>
             </div>
         </div>
     </div>
@@ -966,6 +993,8 @@
         // Initialize and add the map
         let map;
         let markers = [];
+        let flightMarkers = [];
+        let flightInterval;
 
         function initMap() {
             // Philippines center coordinates
@@ -1014,10 +1043,39 @@
                 }
             ];
 
+            // Custom icons
+            const busIcon = L.icon({
+                iconUrl: 'https://cdn-icons-png.flaticon.com/512/61/61231.png',
+                iconSize: [28, 28],
+                iconAnchor: [14, 14],
+                popupAnchor: [0, -12]
+            });
+            const trainIcon = L.icon({
+                iconUrl: 'https://cdn-icons-png.flaticon.com/512/190/190600.png',
+                iconSize: [28, 28],
+                iconAnchor: [14, 14],
+                popupAnchor: [0, -12]
+            });
+            const ferryIcon = L.icon({
+                iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png', // fallback to plane if no ship icon
+                iconSize: [28, 28],
+                iconAnchor: [14, 14],
+                popupAnchor: [0, -12]
+            });
+            const shipIcon = L.icon({
+                iconUrl: 'https://cdn-icons-png.flaticon.com/512/3079/3079052.png',
+                iconSize: [28, 28],
+                iconAnchor: [14, 14],
+                popupAnchor: [0, -12]
+            });
+
             // Create markers for each location
             locations.forEach(location => {
-                const marker = L.marker(location.position).addTo(map);
-                
+                let icon = busIcon;
+                if (location.type.toLowerCase().includes('train')) icon = trainIcon;
+                else if (location.type.toLowerCase().includes('ferry')) icon = shipIcon;
+                // else busIcon by default
+                const marker = L.marker(location.position, { icon }).addTo(map);
                 // Create popup for each marker
                 marker.bindPopup(`
                     <div style="padding: 10px;">
@@ -1025,7 +1083,6 @@
                         <p style="margin: 0;">${location.type}</p>
                     </div>
                 `);
-
                 markers.push({
                     marker: marker,
                     position: location.position
@@ -1051,6 +1108,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             initMap();
             loadTransportationData();
+            startLiveFlightTracking();
 
             // Add hide buttons to existing static flight cards
             const existingCards = document.querySelectorAll('.flight-card');
@@ -1210,6 +1268,50 @@
             } catch (error) {
                 console.error('Error loading transportation data:', error);
             }
+        }
+
+        // LIVE FLIGHT TRACKING
+        function startLiveFlightTracking() {
+            fetchAndDisplayFlights();
+            flightInterval = setInterval(fetchAndDisplayFlights, 20000); // update every 20s
+        }
+
+        function fetchAndDisplayFlights() {
+            // Remove old flight markers
+            flightMarkers.forEach(m => map.removeLayer(m));
+            flightMarkers = [];
+            // Philippines bounding box: min lat, max lat, min lon, max lon
+            const bbox = [4, 22, 116, 127];
+            fetch(`https://opensky-network.org/api/states/all?lamin=${bbox[0]}&lamax=${bbox[1]}&lomin=${bbox[2]}&lomax=${bbox[3]}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.states) return;
+                    data.states.forEach(flight => {
+                        const lat = flight[6];
+                        const lon = flight[5];
+                        if (lat && lon) {
+                            const marker = L.marker([lat, lon], {
+                                icon: L.icon({
+                                    iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png',
+                                    iconSize: [28, 28],
+                                    iconAnchor: [14, 14],
+                                    popupAnchor: [0, -12]
+                                })
+                            }).addTo(map);
+                            marker.bindPopup(`
+                                <b>Flight:</b> ${flight[1] || 'N/A'}<br>
+                                <b>Origin Country:</b> ${flight[2] || 'N/A'}<br>
+                                <b>Altitude:</b> ${flight[7] ? (flight[7].toFixed(0) + ' m') : 'N/A'}<br>
+                                <b>Velocity:</b> ${flight[9] ? (flight[9].toFixed(0) + ' m/s') : 'N/A'}
+                            `);
+                            flightMarkers.push(marker);
+                        }
+                    });
+                })
+                .catch(err => {
+                    // Optionally show a message or log
+                    console.error('Live flight fetch error:', err);
+                });
         }
     </script>
 </body>

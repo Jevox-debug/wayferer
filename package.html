@@ -8,39 +8,127 @@
   <link rel="icon" href="logo.png" type="image/png">
   <style>
     .container {
-      padding: 20px;
+      padding: 40px 20px;
       max-width: 100%;
-      overflow-x: auto;
+      overflow: auto;
+      margin: 0 auto;
+      height: calc(100vh - 100px);
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+    }
+
+    .container::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
+    }
+
+    #packages-section, #videos-section, #agencies-section {
+      margin-bottom: 60px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 20px;
+      overflow: auto;
+      max-height: 80vh;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    #packages-section::-webkit-scrollbar,
+    #videos-section::-webkit-scrollbar,
+    #agencies-section::-webkit-scrollbar {
+      display: none;
     }
 
     #packageContainer {
       display: flex;
       flex-direction: row;
-      gap: 20px;
-      padding: 10px;
+      gap: 24px;
       overflow-x: auto;
-      scroll-behavior: smooth;
+      padding: 20px 10px;
+      margin: 0 -10px;
       -webkit-overflow-scrolling: touch;
-      scrollbar-width: thin;
-      scrollbar-color: #2A9D8F #f5f5f5;
+      scroll-behavior: smooth;
+      white-space: nowrap;
+      min-height: 400px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
     }
 
-    #packageContainer::-webkit-scrollbar {
+    .videos-strip {
+      display: flex;
+      flex-direction: row;
+      gap: 24px;
+      overflow-x: auto;
+      padding: 20px 10px;
+      margin: 0 -10px;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+      white-space: nowrap;
+      min-height: 400px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    #Travelagents {
+      display: flex;
+      flex-direction: row;
+      gap: 24px;
+      overflow-x: auto;
+      padding: 20px 10px;
+      margin: 0 -10px;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+      white-space: nowrap;
+      min-height: 400px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    /* Hide scrollbars for all scrollable elements */
+    #packageContainer::-webkit-scrollbar,
+    .videos-strip::-webkit-scrollbar,
+    #Travelagents::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Custom scrollbar styles for both horizontal and vertical scrolling */
+    #packageContainer::-webkit-scrollbar,
+    .videos-strip::-webkit-scrollbar,
+    #Travelagents::-webkit-scrollbar,
+    #packages-section::-webkit-scrollbar,
+    #videos-section::-webkit-scrollbar,
+    #agencies-section::-webkit-scrollbar {
+      width: 8px;
       height: 8px;
     }
 
-    #packageContainer::-webkit-scrollbar-track {
+    #packageContainer::-webkit-scrollbar-track,
+    .videos-strip::-webkit-scrollbar-track,
+    #Travelagents::-webkit-scrollbar-track,
+    #packages-section::-webkit-scrollbar-track,
+    #videos-section::-webkit-scrollbar-track,
+    #agencies-section::-webkit-scrollbar-track {
       background: #f5f5f5;
       border-radius: 4px;
     }
 
-    #packageContainer::-webkit-scrollbar-thumb {
+    #packageContainer::-webkit-scrollbar-thumb,
+    .videos-strip::-webkit-scrollbar-thumb,
+    #Travelagents::-webkit-scrollbar-thumb,
+    #packages-section::-webkit-scrollbar-thumb,
+    #videos-section::-webkit-scrollbar-thumb,
+    #agencies-section::-webkit-scrollbar-thumb {
       background: #2A9D8F;
       border-radius: 4px;
     }
 
+    /* Ensure cards don't shrink */
+    .card, .video-story-card, .agent-card {
+      flex: 0 0 auto;
+      min-width: 280px;
+      margin-bottom: 20px;
+    }
+
     .card {
-      flex: 0 0 300px;
       position: relative;
       background: white;
       border-radius: 10px;
@@ -115,6 +203,168 @@
     .card button:hover {
       background: #248277;
     }
+
+    .agent-card {
+      position: relative;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+      overflow: hidden;
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .agent-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .agent-card-image {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid white;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+      margin-bottom: 15px;
+    }
+
+    .agent-info {
+      text-align: center;
+      width: 100%;
+    }
+
+    .agent-info h3 {
+      color: #2A9D8F;
+      margin: 10px 0;
+      font-size: 1.2rem;
+    }
+
+    .agent-info p {
+      color: #666;
+      margin: 5px 0;
+      font-size: 0.9rem;
+    }
+
+    .agent-info .contact-info {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #eee;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0; top: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.5);
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-content {
+      background: #fff;
+      border-radius: 18px;
+      max-width: 400px;
+      width: 90vw;
+      margin: 60px auto;
+      padding: 32px 24px 24px 24px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      animation: popIn 0.2s;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .close-modal {
+      position: absolute;
+      right: 18px;
+      top: 18px;
+      font-size: 1.8rem;
+      color: #2A9D8F;
+      cursor: pointer;
+      font-weight: bold;
+      background: none;
+      border: none;
+    }
+
+    .video-story-card {
+      background: #222;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      position: relative;
+      cursor: pointer;
+      transition: box-shadow 0.2s, transform 0.2s;
+      min-height: 360px;
+      max-width: 280px;
+      overflow: hidden;
+      margin: 0 5px;
+    }
+    .video-story-card:hover {
+      box-shadow: 0 4px 16px rgba(42,157,143,0.18);
+      transform: translateY(-3px) scale(1.03);
+    }
+    .video-story-preview {
+      width: 100%;
+      height: 360px;
+      border-radius: 16px;
+      object-fit: cover;
+      border: 3px solid #1877f2;
+      background: #444;
+      display: block;
+    }
+    #videoModal {
+      display: none;
+      position: fixed;
+      z-index: 3000;
+      left: 0; top: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.7);
+      align-items: center;
+      justify-content: center;
+    }
+    #videoModal .modal-content {
+      background: #222;
+      border-radius: 18px;
+      max-width: 90vw;
+      max-height: 90vh;
+      padding: 0;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    #videoModal .close-modal {
+      position: absolute;
+      right: 18px;
+      top: 12px;
+      font-size: 2rem;
+      color: #2A9D8F;
+      cursor: pointer;
+      font-weight: bold;
+      background: none;
+      border: none;
+      z-index: 2;
+    }
+    #videoModal .modal-video {
+      width: 80vw;
+      max-width: 700px;
+      max-height: 80vh;
+      border-radius: 18px;
+      background: #000;
+    }
   </style>
 </head>
 <body>
@@ -140,25 +390,139 @@
 
     </header>
 
-  <div class="container">
-    <div style="width: 100%; text-align: right; margin-bottom: 20px;">
-       
-    </div>
-    
-    <div id="packageContainer">
-        <!-- Dynamic packages will be loaded here -->
-    </div>
-
-    <!-- Default packages -->
    
-      
-  </div>
+  <div class="container">
+    <section id="packages-section">
+      <h1 style="margin-bottom: 24px; color: #2A9D8F; font-size: 2rem;">Travel Packages</h1>
+      <div style="width: 100%; text-align: right; margin-bottom: 20px;"></div>
+      <div id="packageContainer">
+          <!-- Dynamic packages will be loaded here -->
+      </div>
+    </section>
 
-  <script>
+    
+    <section id="videos-section" style="margin: 40px 0; padding: 20px 0; background: #f8f9fa; border-radius: 20px;">
+      <h1 style="margin-bottom: 24px; color: #2A9D8F; font-size: 1.8rem; padding-left: 20px;">Travel Videos</h1>
+      <div class="videos-strip" id="videosStrip"></div>
+    </section>
+
+
+    
+
+    <section id="agencies-section" style="margin-top: 60px;">
+      <h1 style="margin-bottom: 24px; color: #2A9D8F; font-size: 2rem;">Travel Agencies</h1>
+      <div id="Travelagents">
+        <!-- Dynamic agencies will be loaded here -->
+      </div>
+    </section>
+
+    <!-- Videos Section -->
+    
+    <!-- Default packages -->
+    <script>
+        // Default packages data
+        const defaultPackages = [
+            {
+                packageType: 'tour',
+                title: 'Palawan Island Hopping',
+                location: 'El Nido, Palawan',
+                price: 1299,
+                duration: 5,
+                description: 'Explore the stunning lagoons, hidden beaches, and limestone cliffs of El Nido. Includes island hopping tours and snorkeling.',
+                image: 'https://images.unsplash.com/photo-1589308078059-be1415eab4c3'
+            },
+            {
+                packageType: 'hotel',
+                title: 'Luxury Beach Resort',
+                location: 'Boracay, Aklan',
+                price: 2500,
+                description: 'Beachfront luxury resort with infinity pool, spa services, and stunning sunset views of White Beach.',
+                image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d'
+            },
+            {
+                packageType: 'tour',
+                title: 'Bohol Countryside',
+                location: 'Bohol',
+                price: 899,
+                duration: 3,
+                description: 'Visit the Chocolate Hills, Tarsier Sanctuary, and Loboc River Cruise. Experience the unique culture of Bohol.',
+                image: 'https://images.unsplash.com/photo-1589308078059-be1415eab4c3'
+            },
+            {
+                packageType: 'hotel',
+                title: 'Mountain View Villa',
+                location: 'Baguio City',
+                price: 699,
+                description: 'Cozy mountain retreat with panoramic views of the Cordillera mountains. Perfect for cool weather getaway.',
+                image: 'https://images.unsplash.com/photo-1511884642898-4c92249e20b6'
+            },
+            {
+                packageType: 'tour',
+                title: 'Cebu Adventure',
+                location: 'Cebu',
+                price: 1599,
+                duration: 4,
+                description: 'Explore Kawasan Falls, Oslob Whale Shark watching, and historical sites including Magellan\'s Cross.',
+                image: 'https://images.unsplash.com/photo-1589308078059-be1415eab4c3'
+            },
+            {
+                packageType: 'hotel',
+                title: 'Manila Bay Hotel',
+                location: 'Manila',
+                price: 799,
+                description: 'Modern hotel in the heart of Manila with stunning views of Manila Bay and easy access to attractions.',
+                image: 'https://images.unsplash.com/photo-1542051841857-5f90071e7989'
+            },
+            {
+                packageType: 'tour',
+                title: 'Siargao Surf & Island',
+                location: 'Siargao',
+                price: 1899,
+                duration: 6,
+                description: 'Surf lessons, island hopping, and exploration of the famous Cloud 9 surf spot and Sugba Lagoon.',
+                image: 'https://images.unsplash.com/photo-1589308078059-be1415eab4c3'
+            },
+            {
+                packageType: 'hotel',
+                title: 'Davao City Resort',
+                location: 'Davao',
+                price: 899,
+                description: 'Luxury resort with views of Mount Apo and easy access to the Philippine Eagle Center.',
+                image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c'
+            },
+            {
+                packageType: 'tour',
+                title: 'Sagada Adventure',
+                location: 'Sagada, Mountain Province',
+                price: 999,
+                duration: 3,
+                description: 'Experience the hanging coffins, spelunking in Sumaguing Cave, and sunrise at Kiltepan Viewpoint.',
+                image: 'https://images.unsplash.com/photo-1589308078059-be1415eab4c3'
+            },
+            {
+                packageType: 'hotel',
+                title: 'Vigan Heritage Inn',
+                location: 'Vigan, Ilocos Sur',
+                price: 599,
+                description: 'Stay in a restored Spanish-era house in the UNESCO World Heritage city of Vigan.',
+                image: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4'
+            }
+        ];
+
+        // Add default packages to localStorage if none exist
+        if (!localStorage.getItem('travelPackages')) {
+            localStorage.setItem('travelPackages', JSON.stringify(defaultPackages));
+        }
+    </script>
+
+    <script>
     // Load and display submitted packages
     function loadPackages() {
         const packageContainer = document.getElementById('packageContainer');
         const packages = JSON.parse(localStorage.getItem('travelPackages')) || [];
+
+        // Clear existing content
+        packageContainer.innerHTML = '';
 
         packages.forEach((pkg, index) => {
             const card = document.createElement('div');
@@ -171,26 +535,35 @@
             img.src = pkg.image;
             img.onerror = function() {
                 this.src = 'logo.png'; // Fallback image if loading fails
-                console.error('Failed to load image for package:', pkg.title);
             };
 
             const cardContent = document.createElement('div');
             cardContent.className = 'card-content';
             cardContent.innerHTML = `
                 <button class="delete-btn" onclick="deletePackage(${index})" title="Delete package">×</button>
-                <h2>${pkg.packageType === 'tour' ? pkg.title : `${pkg.packageType}: ${pkg.title}`}</h2>
+                <h2>${pkg.title}</h2>
                 <p>Location: ${pkg.location}</p>
-                <p>Price: $${pkg.price}</p>
+                <p>Price: ₱${pkg.price}</p>
                 ${pkg.duration ? `<p>Duration: ${pkg.duration} days</p>` : ''}
                 <p>${pkg.description}</p>
-                <a href="${pkg.packageType === 'hotel' ? 'hotelbook.html' : 'booking.html'}">
-                    <button>Book ${pkg.packageType}</button>
-                </a>
             `;
             
             card.appendChild(img);
             card.appendChild(cardContent);
             packageContainer.appendChild(card);
+
+            // Add click event to open modal (ignore clicks on delete button)
+            card.addEventListener('click', function(e) {
+                if (e.target.classList.contains('delete-btn')) return;
+                document.getElementById('modalPackageImage').src = pkg.image || 'logo.png';
+                document.getElementById('modalPackageTitle').textContent = pkg.title;
+                document.getElementById('modalPackageLocation').textContent = 'Location: ' + pkg.location;
+                document.getElementById('modalPackagePrice').textContent = 'Price: ₱' + pkg.price;
+                document.getElementById('modalPackageDuration').textContent = pkg.duration ? ('Duration: ' + pkg.duration + ' days') : '';
+                document.getElementById('modalPackageDesc').textContent = pkg.description;
+                document.getElementById('modalBookLink').href = pkg.packageType === 'hotel' ? 'hotelbook.html' : 'booking.html';
+                document.getElementById('packageModal').style.display = 'flex';
+            });
         });
     }
 
@@ -200,16 +573,193 @@
             const packages = JSON.parse(localStorage.getItem('travelPackages')) || [];
             packages.splice(index, 1);
             localStorage.setItem('travelPackages', JSON.stringify(packages));
-            
-            // Refresh the package container
-            const packageContainer = document.getElementById('packageContainer');
-            packageContainer.innerHTML = '';
-            loadPackages();
+            loadPackages(); // Refresh the display
         }
     }
 
     // Load packages when the page loads
     window.addEventListener('load', loadPackages);
-  </script>
+    </script>
+
+    <script>
+    function renderTravelAgents() {
+      const container = document.getElementById('Travelagents');
+      container.innerHTML = '';
+      let agencies = JSON.parse(localStorage.getItem('travelAgencyInfo')) || [];
+      if (!Array.isArray(agencies)) agencies = [];
+      
+      if (agencies.length === 0) {
+        container.innerHTML = '<p style="text-align: center; width: 100%; color: #666;">No travel agencies registered yet.</p>';
+        return;
+      }
+
+      agencies.forEach((agency, index) => {
+        const card = document.createElement('div');
+        card.className = 'agent-card';
+        
+        const img = document.createElement('img');
+        img.className = 'agent-card-image';
+        img.src = agency.logo || 'logo.png';
+        img.alt = agency.name;
+
+        const infoDiv = document.createElement('div');
+        infoDiv.className = 'agent-info';
+        infoDiv.innerHTML = `
+          <h3>${agency.name}</h3>
+          <p>${agency.desc}</p>
+          <div class="contact-info">
+            <p><strong>Email:</strong> ${agency.email}</p>
+            <p><strong>Phone:</strong> ${agency.phone}</p>
+            <p><strong>Address:</strong> ${agency.address}</p>
+          </div>
+        `;
+
+        card.appendChild(img);
+        card.appendChild(infoDiv);
+        container.appendChild(card);
+
+        // Add click event to show modal
+        card.onclick = function() {
+          document.getElementById('modalAgencyLogo').src = agency.logo || 'logo.png';
+          document.getElementById('modalAgencyName').textContent = agency.name;
+          document.getElementById('modalAgencyDesc').textContent = agency.desc;
+          document.getElementById('modalAgencyEmail').textContent = agency.email;
+          document.getElementById('modalAgencyPhone').textContent = agency.phone;
+          document.getElementById('modalAgencyAddress').textContent = agency.address;
+          document.getElementById('agencyModal').style.display = 'flex';
+          
+          // Update delete button to use the correct index
+          document.getElementById('deleteAgencyBtn').onclick = function() {
+            deleteAgency(index);
+          };
+        };
+      });
+    }
+
+    function deleteAgency(index) {
+      if (confirm('Are you sure you want to delete this agency?')) {
+        let agencies = JSON.parse(localStorage.getItem('travelAgencyInfo')) || [];
+        if (!Array.isArray(agencies)) agencies = [];
+        agencies.splice(index, 1);
+        localStorage.setItem('travelAgencyInfo', JSON.stringify(agencies));
+        document.getElementById('agencyModal').style.display = 'none';
+        renderTravelAgents();
+      }
+    }
+
+    // Modal close logic
+    window.addEventListener('DOMContentLoaded', function() {
+      renderTravelAgents();
+      const modal = document.getElementById('agencyModal');
+      document.querySelector('.close-modal').onclick = function() {
+        modal.style.display = 'none';
+      };
+      window.onclick = function(event) {
+        if (event.target === modal) {
+          modal.style.display = 'none';
+        }
+      };
+      // Add delete button event
+      document.getElementById('deleteAgencyBtn').onclick = function() {
+        deleteAgency(index);
+      };
+    });
+    </script>
+</div>
+
+<div id="agencyModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <img id="modalAgencyLogo" src="" alt="Agency Logo" style="width:100px;height:100px;border-radius:50%;margin-bottom:16px;">
+    <h2 id="modalAgencyName"></h2>
+    <p id="modalAgencyDesc" style="margin-bottom:16px;"></p>
+    <p><strong>Email:</strong> <span id="modalAgencyEmail"></span></p>
+    <p><strong>Phone:</strong> <span id="modalAgencyPhone"></span></p>
+    <p><strong>Address:</strong> <span id="modalAgencyAddress"></span></p>
+    <button id="deleteAgencyBtn" style="margin-top:20px;background:#e74c3c;color:#fff;padding:10px 24px;border:none;border-radius:6px;cursor:pointer;font-size:1rem;">Delete Agency</button>
+  </div>
+</div>
+
+<div id="packageModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="close-modal" id="closePackageModal">&times;</span>
+    <img id="modalPackageImage" src="" alt="Package Image" style="width:100%;max-width:320px;height:180px;object-fit:cover;border-radius:10px;margin-bottom:16px;">
+    <h2 id="modalPackageTitle"></h2>
+    <p id="modalPackageLocation" style="margin-bottom:8px;"></p>
+    <p id="modalPackagePrice" style="margin-bottom:8px;"></p>
+    <p id="modalPackageDuration" style="margin-bottom:8px;"></p>
+    <p id="modalPackageDesc" style="margin-bottom:16px;"></p>
+    <a id="modalBookLink" href="#"><button style="background:#2A9D8F;color:#fff;padding:10px 24px;border:none;border-radius:6px;cursor:pointer;font-size:1rem;">Book Now</button></a>
+  </div>
+</div>
+
+<script>
+// Modal close logic for package modal
+document.addEventListener('DOMContentLoaded', function() {
+  // ... existing code ...
+  document.getElementById('closePackageModal').onclick = function() {
+    document.getElementById('packageModal').style.display = 'none';
+  };
+  window.onclick = function(event) {
+    if (event.target === document.getElementById('packageModal')) {
+      document.getElementById('packageModal').style.display = 'none';
+    }
+    // ... existing code ...
+  };
+});
+</script>
+
+<!-- Video Modal -->
+<div id="videoModal">
+  <div class="modal-content">
+    <span class="close-modal" id="closeVideoModal">&times;</span>
+    <video id="modalVideo" class="modal-video" controls></video>
+  </div>
+</div>
+
+<script>
+const videoStories = [
+  { video: 'Download.mp4' },
+  { video: 'Download (1).mp4' },
+  { video: 'Download (2).mp4' },
+  { video: 'Download (3).mp4' },
+  { video: 'Download (4).mp4' },
+  { video: 'Download (5).mp4' },
+  { video: 'Download (6).mp4' },
+  { video: 'Download (7).mp4' },
+];
+
+function renderVideoStories() {
+  const strip = document.getElementById('videosStrip');
+  strip.innerHTML = '';
+  videoStories.forEach((story) => {
+    const card = document.createElement('div');
+    card.className = 'video-story-card';
+    card.innerHTML = `
+      <video class="video-story-preview" src="${story.video}" preload="metadata" muted playsinline></video>
+    `;
+    card.onclick = function() {
+      document.getElementById('modalVideo').src = story.video;
+      document.getElementById('videoModal').style.display = 'flex';
+      document.getElementById('modalVideo').play();
+    };
+    strip.appendChild(card);
+  });
+}
+document.addEventListener('DOMContentLoaded', renderVideoStories);
+
+document.getElementById('closeVideoModal').onclick = function() {
+  document.getElementById('videoModal').style.display = 'none';
+  document.getElementById('modalVideo').pause();
+  document.getElementById('modalVideo').src = '';
+};
+window.onclick = function(event) {
+  if (event.target === document.getElementById('videoModal')) {
+    document.getElementById('videoModal').style.display = 'none';
+    document.getElementById('modalVideo').pause();
+    document.getElementById('modalVideo').src = '';
+  }
+};
+</script>
 </body>
 </html>
