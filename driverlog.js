@@ -24,7 +24,7 @@ loginForm.addEventListener('submit', async function(e) {
     try {
         await signInWithEmailAndPassword(window.firebaseAuth, email, password);
         alert('Login successful!');
-        window.location.href = 'spackage.html'; // Redirect to spackage.html
+        window.location.href = 'stranspo.html'; // Redirect to spackage.html
     } catch (error) {
         alert('Error: ' + error.message);
     }
