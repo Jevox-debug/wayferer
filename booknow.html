@@ -127,12 +127,6 @@
         .tour-code-container img {
             width: 100px;
             height: auto;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .tour-code-container img:hover {
-            transform: scale(1.1);
         }
 
         button[type="submit"] {
@@ -177,39 +171,6 @@
             margin: 10px 0;
         }
 
-        /* Modal styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
-        }
-
-        .modal-content {
-            margin: auto;
-            display: block;
-            max-width: 90%;
-            max-height: 90%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 35px;
-            color: #f1f1f1;
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
         @media (max-width: 768px) {
             #menu-icon {
                 display: block;
@@ -243,12 +204,6 @@
     </style>
 </head>
 <body>
-    <!-- Add modal HTML -->
-    <div id="imageModal" class="modal">
-        <span class="close-modal">&times;</span>
-        <img class="modal-content" id="modalImage">
-    </div>
-
     <header class="header">
         <a href="#" class="logo" style="margin: 0; display: flex; align-items: center; gap: 10px;"><img src="logo.png" alt="My logo" width="100">Wayfarers</a>
         <div class="bx bx-menu" id="menu-icon"></div>
@@ -268,14 +223,14 @@
                 <hr>
             </div>
                
-            <input type="hidden" name="access_key" value="742306f7-2a1d-4517-9b2e-71664bf88147">
+            <input type="hidden" name="access_key" value="cd8235b8-b2f8-44c4-88b6-71a1f03c6c87">
 
             <input type="text" name="name" placeholder="Your Name" class="contact-inputs" required>
             <input type="email" name="Email" placeholder="Your Email" class="contact-inputs" required>
             
             <div class="tour-code-container">
-                <textarea name="tour_code" placeholder="Tour Name" class="contact-inputs" required></textarea>
-                <img src="name.png" alt="Tour Code Reference" id="tourCodeImage">
+                <textarea name="tour_code" placeholder="Tour Code" class="contact-inputs" required></textarea>
+                <img src="codepic.png" alt="Tour Code Reference">
             </div>
 
             <textarea name="message" placeholder="Your Message" class="contact-inputs" required></textarea>
@@ -294,27 +249,6 @@
 
         menuIcon.onclick = () => {
             navbar.classList.toggle('active');
-        }
-
-        // Modal functionality
-        const modal = document.getElementById('imageModal');
-        const modalImg = document.getElementById('modalImage');
-        const tourCodeImage = document.getElementById('tourCodeImage');
-        const closeModal = document.querySelector('.close-modal');
-
-        tourCodeImage.onclick = function() {
-            modal.style.display = "block";
-            modalImg.src = this.src;
-        }
-
-        closeModal.onclick = function() {
-            modal.style.display = "none";
-        }
-
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
         }
     </script>
 </body>
